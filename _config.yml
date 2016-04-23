@@ -29,7 +29,7 @@ paginate: 3
 
 # system variables, do not change unless you knew what's it does.
 paginate_path: page/:num
-highlighter: pygments
+highlighter: rouge
 redcarpet:
   extensions: ["tables"]
 
