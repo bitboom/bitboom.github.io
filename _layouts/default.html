@@ -1,20 +1,19 @@
+---
+---
 <!DOCTYPE html>
-<html>
-
-  {% include head.html %}
-
+<html lang="en">
+  <head>
+    {% include metadata.html %}
+  </head>
   <body>
-
-    {% include header.html %}
-
-    <div class="page-content">
-      <div class="wrapper">
-        {{ content }}
+    <div class="container">
+      <div class="row" id="main-row">
+        {% include left.html %}
+        {% include main.html %}
+        {% include right.html %}
+        {% include check_mode.html %}
       </div>
     </div>
-
-    {% include footer.html %}
-
+    {% include scripts.html %}
   </body>
-
 </html>
