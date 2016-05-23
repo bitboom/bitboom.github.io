@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  CMake 입문하기
-categories: cmake 
+tags: [cmake] 
 ---
 
  `CMake`에 대한 설명은 생략하고, step-by-step으로 `Cmake`를 익혀보자.  
