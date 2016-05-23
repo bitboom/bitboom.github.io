@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Ubuntu, Tizen 애플리케이션 개발환경 셋팅
+tags: [tizen]
 ---
 ## Tizen Application development environment setting
 **Tizen Application** 개발환경 셋팅 (작성 중)  

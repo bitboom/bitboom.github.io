@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Vim 편해지기
+tags: [vim]
 ---
 
 vim이 익숙 해지기 위한 단계  

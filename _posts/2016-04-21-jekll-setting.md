@@ -1,6 +1,7 @@
 ---
 layout: post
 title: history for blog init 
+tags: [jeykyll]
 ---
 
 - author : bitboom

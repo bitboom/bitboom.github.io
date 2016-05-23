@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Tizen Platform, global macro 정의하기
+tags: tizen
 ---
 ## Tizen platform development  
 ## Define global macro  

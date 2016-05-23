@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Markdown skeleton code for blogging
+tags: [markdown]
 ---
 
 - author : bitboom
