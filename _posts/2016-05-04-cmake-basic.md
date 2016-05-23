@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "CMake 입문하기."
+title:  CMake 입문하기
 categories: cmake 
 ---
 
