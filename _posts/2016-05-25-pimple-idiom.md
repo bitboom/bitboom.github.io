@@ -28,6 +28,10 @@ tags: [c++]
 아래 pimpl idiom을 적용하기 전 code와 후 code를 작성 하였다.    
 header가 매우 깔끔해진 것을 볼 수 있다.
 
+단 기존 C98로 구현 시 Impl 객체를 new, delete하여 구현 하면 되지만,  
+**modern c++**로 구현시는 implemet type 및 move semantics에 따라  
+고려해야 할 부분이 있다. 아래코드에 반영 되어있다.   
+
 ```
 // non-pimpl.h
 #include <string>
@@ -56,6 +60,8 @@ class Pimpl {
 public:
 	Pimpl();
 	virtual ~Pimpl();
+	Pimpl(const Pimpl&& rhs);
+	Pimpl& operator=(const Pimpl&& rhs);
 private:
 	class Impl;
 	std::unique_ptr<Impl> m_impl;	
@@ -76,7 +82,18 @@ private:
 };
 
 Pimpl::Pimpl() : m_impl(new Impl) {}
-Pimpl::~Pimpl() {}
+Pimpl::~Pimpl() = default;
+Pimpl::Pimpl(const Pimpl& ths) : m_impl(nullptr)
+{
+	if (rhs.m_impl) m_impl = std::make_unique<Impl>(*rhs.m_impl);
+}
+Pimpl& Pimpl::operator=(const Pimpl& rhs)
+{
+	if (!rhs.m_impl) m_impl.reset();
+	else if (!m_impl) m_impl = std::make_unique<Impl>(*rhs.m_impl);
+	else *m_impl = *rhs.m_impl;
+	return *this;
+}
 void Pimpl::task() { return m_impl->task(); }
 ``` 
 
