@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Analysis XML Digital Signature shema
-tags: [digital signature][tizen]
+tags: [digital signature]
 ---
 
 Tizen platform내 어플리케이션의 무결성을 검증 및 개발자 인증을 위해 사용하는 
