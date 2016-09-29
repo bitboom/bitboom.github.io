@@ -42,3 +42,33 @@ tags: [DSignature]
 
 ---
 Certificate.h -- X509(subject, issuer)
+
+---
+
+|before|after|improve|file cnt|file size|
+|---
+1|LibOAuth|75|64|15%|21|172K|
+2|OAuth2|88|71|19%|32|212K|
+3|SampleAccount|82|70|15%|25|172K|
+4|FileManager|121|98|19%|40|333K|
+5|Appcommon|104|82|21%|37|284K|
+6|ResourceManagement|494|310|37%|297|2.8M|
+7|ContextHistory|82|69|16%|23|164K|
+8|MessagePort|76|69|9%|21|148K|
+9|SyncManager|78|67|14%|21|156K|
+10|Simplehome|75|66|12%|21|140K|
+
+
+
+
+		before	after	improve	file cnt	file size  
+1	LibOAuth	75	64	15%	21	172K  
+2	OAuth2	88	71	19%	32	212K  
+3	SampleAccount	82	70	15%	25	172K  
+4	FileManager	121	98	19%	40	333K  
+5	Appcommon	104	82	21%	37	284K  
+6	ResourceManagement	494	310	37%	297	2.8M  
+7	ContextHistory	82	69	16%	23	164K  
+8	MessagePort	76	69	9%	21	148K  
+9	SyncManager	78	67	14%	21	156K  
+10	Simplehome	75	66	12%	21	140K  
