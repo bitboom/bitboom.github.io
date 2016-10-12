@@ -200,3 +200,88 @@ Certificate.h -- X509(subject, issuer)
 1	FileManager	571	327	43%		
 2	OAuth2	414	300	28%		
 3	Media	13369	1655	88%		
+
+
+
+
+----------------
+
+
+----------------
+
+
+	6678	3843	920											
+	설치 스텝	총 29 중 1												
+	설치 시간	5627	2333											
+		before	va	vd	vt	비율	after	va	vd	vt	비율	improve	file size	references
+1	LibOAuth	75	9	8	17	23%	64	8	1	9	14%	15%	172K	4
+2	OAuth2	88	10	10	20	23%	71	9	2	11	15%	19%	212K	9
+3	SampleAccount	82	8	8	16	20%	70	8	2	10	14%	15%	172K	8
+4	FileManager	121	22	22	44	36%	98	22	3	25	26%	19%	333K	17
+5	Appcommon	104	14	15	29	28%	82	14	2	16	20%	21%	284K	14
+6	ResourceManagement	494	160	146	306	62%	310	144	15	159	51%	37%	2.8M	115
+7	ContextHistory	82	8	7	15	18%	69	7	1	8	12%	16%	164K	6
+8	MessagePort	76	6	6	12	16%	69	6	1	7	10%	9%	148K	4
+9	SyncManager	78	7	7	14	18%	67	6	1	7	10%	14%	156K	4
+10	Simplehome	75	6	6	12	16%	66	5	1	6	9%	12%	140K	4
+11	MediaContent	738	344	332	676	92%	395	330	1	331	84%	46%	6.9M	7
+12	Media	2660	1283	1262	2545	96%	1363	1263	5	1268	93%	49%	26M	36
+13	Player	735	342	330	672	91%	395	330	2	332	84%	46%	6.8M	8
+14	MetadataExtractor	719	331	322	653	91%	386	321	1	322	83%	46%	6.7M	5
+15	ThumbnailUtil	720	329	322	651	90%	386	322	1	323	84%	46%	6.7M	5
+														
+														
+	signature 2													
+		before		after		improve								
+1	FileManager	167	73	115	28	31%								
+2	OAuth2	124	29	98	12	21%								
+3	Media	3995	3776	1399	1266	65%								
+														
+														
+	signature 3													
+		before		after		improve								
+1	FileManager	226	96	146	29	35%								
+2	OAuth2	167	39	124	13	26%								
+3	Media	5329	5050	1439	1271	73%								
+														
+														
+	signature 4													
+		before		after		improve								
+1	FileManager	280	121	177	31	37%								
+2	OAuth2	207	49	156	14	25%								
+3	Media	6660	6314	1477	1274	78%								
+														
+														
+	signature 5													
+		before		after		improve								
+1	FileManager	354	140	209	33	41%								
+2	OAuth2	254	59	184	15	28%								
+3	Media	8035	7581	1517	1282	81%								
+														
+														
+	signature 6													
+		before		after		improve								
+1	FileManager	412	162	243	33	41%								
+2	OAuth2	301	69	215	16	29%								
+3	Media	9328	8826	1550	1278	83%								
+														
+														
+	signature 7													
+		before		after		improve								
+1	FileManager	457	184	274	36	40%								
+2	OAuth2	324	79	239	17	26%								
+3	Media	10660	10097	1589	1285	85%								
+														
+	signature 8													
+		before		after		improve								
+1	FileManager	516	206	298	38	42%								
+2	OAuth2	375	89	270	18	28%								
+3	Media	11993	11346	1621	1283	86%								
+														
+														
+	signature 9													
+		before		after		improve								
+1	FileManager	571	228	327	40	43%								
+2	OAuth2	414	99	300	19	28%								
+3	Media	13369	12628	1655	1292	88%								
+														
