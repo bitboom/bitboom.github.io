@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  플로이드 와샬 알고리즘 (Floyd-Warshall Algorithm)
+title:  Floyd-Warshall Algorithm
 tags: [algorithm] 
 ---
 
