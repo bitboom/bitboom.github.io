@@ -4,21 +4,31 @@ title:  Pimpl Idiom
 tags: [c++] 
 ---
 
+## 목적  
+구현부를 숨겨서 coupling을 최소화하고, interfaces를 분리한다.  
+
+
+## 정의  
 [MSDN]의 `Pimpl(Pointer to Implementation) Idiom`의 정의는 아래와 같다. 
- 
+
  > The pimpl idiom is a modern C++ technique to **hide implementation**,  
  > to minimize coupling, and to separate interfaces.  
  > Pimpl is short for "pointer to implementation."  
  > You may already be familiar with the concept but know it by other names  
  > like Cheshire Cat or Compiler Firewall idiom.  
  
-구현부를 숨겨서 coupling을 최소화하고, interfaces를 분리한다.  
-예를 들어, library를 제공하기 위한 header를 제공한다 했을 때,  
-1. library user는 header 안에 선언된 모든 header를 참조하게 되고
-2. header안에 제공하는 struct와 같은 것이 변경되면 re-complie을 해야한다.
 
-위와 같은 문제를 해결하기 위하여 도입된 Idiom이며 크게 장점은 아래와 같다.  
+##  기존문제
+1. library user는 header 안에 선언된 모든 header를 참조하게 되고  
+2. header안에 제공하는 **struct와 같은 것이 변경**되면 re-complie을 해야한다.   
 
+
+**즉, *멤버변수*를 자유롭게 변경 가능**  
+**반대로 멤버변수에 대한 접근이 필요 없는 경우 큰 효용이 없음**
+
+위와 같은 문제를 해결하기 위하여 도입된 Idiom이며 크게 장점은 아래와 같다.  
+
+## 장점
  > Minimization of compilation dependencies.  
  > Separation of interface and implementation.  
  > Improve potablity.  
