@@ -38,7 +38,16 @@ tags: [c++]
 아래 pimpl idiom을 적용하기 전 code와 후 code를 작성 하였다.    
 header가 매우 깔끔해진 것을 볼 수 있다.
 
-단 기존 C98로 구현 시 Impl 객체를 new, delete하여 구현 하면 되지만,  
+## [Trade-Off][1]
+> The alternatives to the pImpl idiom are  
+> inline implementation: private members and public members are members of the same class  
+> pure abstract class (OOP factory): users obtain a unique pointer to a lightweight or   
+> abstract base class, the implementation details are in the derived class that overrides  
+> its virtual member functions  
+
+
+## [주의사항][2]
+단 기존 C98로 구현 시 Impl 객체를 new, delete하여 구현 하면 되지만,  
 **modern c++**로 구현시는 implemet type 및 move semantics에 따라  
 고려해야 할 부분이 있다. 아래코드에 반영 되어있다.   
 
@@ -108,3 +117,5 @@ void Pimpl::task() { return m_impl->task(); }
 ``` 
 
 [MSDN]:https://msdn.microsoft.com/ko-kr/library/hh438477.aspx 
+[1]:http://en.cppreference.com/w/cpp/language/pimpl
+[2]:http://ozt88.tistory.com/32
