@@ -31,7 +31,9 @@ tags: [c]
 - 개념상으로 크게 차이는 없고, 중요한 것은 class의 객체가 메모리를 할당받기 전에 딱 한번 생성이 됨.
 - 따라서 객체 생성 후에 접근할 수 있는 일반 member 변수에 대해 접근 할 수 없음.
 
+좋은글 : https://kldp.org/files/static____________160.htm
 
-
+단점 1. 메모리를 계속 먹고있는다. bss?
+     2. 생성시점을 제어 할 수 없음.
 
 [1]:https://en.wikipedia.org/wiki/Static_(keyword)
