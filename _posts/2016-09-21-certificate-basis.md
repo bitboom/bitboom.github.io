@@ -24,6 +24,11 @@ tags: [digital signature]
 3. 복호화된 Hash값과 받은 문서의 Hash값과 비교함.
 
 ---
+## [용어][3]
+> SSL은 서버 인증(Server Authentication), 클라이언트 인증(Client Authentication)  
+> 그리고 데이타 암호화(Data Encryption) 기능을 제공  
+> **인증(Authentication)** 통신의 상대방이 맞는지 확인하는 절차를 의미  
+> **암호화**는 데이타가 누출되더라도 외부에서 이 내용을 해독할 수 없게 하는 걸 의미  
 
 ## [X.509 인증서 (Certificate)][2]
 > X.509는 암호학에서 공개키 인증서와 인증알고리즘의 표준 가운데에서 공개 키 기반(PKI)의 ITU-T 표준이다.
@@ -102,3 +107,4 @@ NOTE: Only way to tell the difference between PEM .cer and DER .cer is to open t
 
 [1]:https://www.google.co.kr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwj7_veelZbRAhUN4mMKHbjJD3EQFggeMAA&url=https%3A%2F%2Fko.wikipedia.org%2Fwiki%2F%25EC%25A0%2584%25EC%259E%2590%25EC%2584%259C%25EB%25AA%2585&usg=AFQjCNEF8lnCfWrND41eP7kWRoG4Ncjs0A&sig2=zgr3FxNWR0p2L8OGCDKFjA&bvm=bv.142059868,d.cGc
 [2]:https://ko.wikipedia.org/wiki/X.509
+[3]:http://btsweet.blogspot.kr/2014/06/tls-ssl.html
