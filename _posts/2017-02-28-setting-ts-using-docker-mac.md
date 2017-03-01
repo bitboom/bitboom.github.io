@@ -27,12 +27,15 @@ tags: [linux]
   ```
 
 ## Coding with docker container
-1. Code and test on docker.
-2. Exit docker.
-3. Save docker image.
+1. Code and test on docker.  
   ```
-  $ docker ps -a
-  $ docker commit b4e3ed4abdc9 ts-guide
+  $ docker cp sample.py ts-guide:/sample
+  ```
+2. Exit docker.
+3. Save docker image.  
+  ```
+  $ docker ps -a  
+  $ docker commit b4e3ed4abdc9 ts-guide  
   ```
 4. Confirm saved docker image as browser
 > Copy/paste this URL into your browser when you connect for the first time,  
