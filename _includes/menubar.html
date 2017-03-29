@@ -19,20 +19,6 @@
         </span>
       </a>
     </li>
-  </ul>
-</div>
-<div class="col-xs-6 col-sm-12">
-  <h3>Everything</h3>
-  <ul class="nav nav-pills nav-stacked" role="tablist">
-    <li {% if page.url == "/projects.html" %}class="active"{% endif %}>
-      <a href="{{ site.baseurl }}/projects.html">
-        <i class="fa fa-fw fa-flask"></i>
-        Projects
-        <span class="badge hidden-xs pull-right">
-          {{ site.data.projects | size }}
-        </span>
-      </a>
-    </li>
     <li {% if page.url == "/about.html" %}class="active"{% endif %}>
       <a href="{{ site.baseurl }}/about.html">
         <i class="fa fa-fw fa-user"></i>
