@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  Shared library symbol visibility
-tags: [Linux]
+tags: [linux]
 ---
 
 ### [Symbol table][1]  
