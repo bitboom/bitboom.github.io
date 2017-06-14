@@ -18,7 +18,7 @@ tags: [linux]
 ELF는 프로그램의 Symbol을 관리하는데 있어서 visibility를 조정 할 수 있게 한다.  
 Visibility는 4가지 속성을 가지고 있다.
 1. defualt
-2. gidden
+2. hidden
 3. protected
 4. internal
 
