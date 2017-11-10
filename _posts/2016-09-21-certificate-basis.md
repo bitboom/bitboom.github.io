@@ -1,110 +1,55 @@
 ---
 layout: post
-title: Certificate basis and format
+title: 전자서명과 인증서
 tags: [digital signature]
 ---
 
-## [전자서명 (Digital Signature)][1]
-> 전자서명이라 함은 **서명자를 확인**하고 서명자가 당해 전자문서에 **서명을 하였음**을  
-> 나타내는 데 이용하기 위하여 당해 전자문서에 첨부되거나 논리적으로 결합된  
-> 전자적 형태의 정보를 말한다.  + 전자 문서의 무결성을 보증.
+ 우리는 집을 사기 위해 계약서를 쓸 때나 신용카드를 사용하고 나서 **서명**을 한다. 여기서 서명은 두 가지 효력이 있다. 첫째, 서명을 보고 서명을 한 사람(서명자)이 누군지 확인 할 수 있다. 둘째, 서명자가 나중에 딴소리 서명을 하였음을 나타내는데 사용한다. 예를 들어 은행에서 5000만원을 인출하기 위해 서명을 하고 나중에 500만원만 인출 했었다고 못하게 하는 것이다. 추가로 계약서에 서명 후 상대방이 임의로 계약서를 수정하지 못하도록 사본을 가지고 있거나 사진으로 기록에 남겨둔다. 결국 거래, 계약과 같은 상호간의 안전한 합의가 필요한 경우 서명이 사용 되며 서명은 아래의 세가지 보안적 요소를 만족 시켜야 한다.
+-	인증 (Authentication)
+-	무결성 (Integrity)
+-	부인방지 (Non-repudiation)
 
-- 즉, 서명자 인증, 부인 방지, 무결성 보장을 목적으로 함.
-- **전자문서의 해시(HASH)값을 서명자의 개인키(전자서함명생성정보)로 변환(암호화)한 것**으로서  
-  RSA사에서 만든 PKCS#7 의 표준이 널리 사용되고 있음.
+## [전자 서명 (Digital signature)][1]
+ 전자 서명이란 실제 아날로그의 서명 방식을 전자 문서(파일, 메시지 등)에 사용하기 위하여 디지털화 시킨 것이다. 따라서 전자 서명은 해당 전자 문서에 대해 위의 세가지 보안 요소(인증, 무결성, 부인방지)를 보장한다. 
+-	인증 (Authentication): 서명자의 공개키를 이용하여 서명 값을 검사
+-	무결성 (Integrity): 전자 서명에 첨부된 해시 값을 검사
+-	부인방지 (Non-repudiation): 서명자의 공개키를 이용하여 서명 값을 검사
 
-### 서명부 (Signning)
-1. (Digest) Hash 함수를 통해 전자 문서 A의 Hash 값을 구함. 
-2. (Encryption) 이 Hash 값을 서명자의 Private Key 로 암호화함.
-3. 암호화된 Hash값과 서명자의 public key 원본 전자 문서 A 끝에 첨부함.
+## 전자 서명에 사용되는 알고리즘
+ 위의 세 가지를 보장 하기 위하여 기술적으로 공개키 기반 구조(Public Key Infrastructure)와 해시 함수가 사용되며, 사용 되는 알고리즘은 아래와 같다.
+### 서명 검증
+1.	공개 키 쌍을 생성하는 키 생성 알고리즘
+2.	개인 키를 사용하여 서명을 생성하는 알고리즘
+3.	서명과 서명자의 공개 키를 사용하여 서명을 검증하는 알고리즘
+> 키 생성 알고리즘 G: 서명자의 키 쌍(PK, SK)을 생성한다. PK는 공개 검증 값, 그리고 SK는 비밀 서명 값이다.
+> 서명 생성 알고리즘 S: 메시지 m과 서명 값 SK를 입력하고, 서명 σ를 생성한다.
+> 서명 검증 알고리즘 V: 메시지 m, 검증 값 PK, 서명 σ을 입력하고, 승인 또는 거부를 출력한다.
+### 무결성 검증
+1.	전자 문서의 해시 값과 서명 파일에 기록 된 해시 값을 비교하는 알고리즘
 
-### 검증부 (Verification)
-1. 첨부된 Hash값을 제외하여 Hash 함수를 통해 Hash 값을 구함.
-2. 그 다음 문서 뒤에 달린 암호화된 Hash값을 철수의 Public Key로 복호화함.
-3. 복호화된 Hash값과 받은 문서의 Hash값과 비교함.
+ 전자 서명을 완전히 수행하기 위해선 전자 문서에 해당 서명 값과 공개 키를 붙여야 하는데, 이 때 공개 키를 붙이기 위하여 인증서가 사용 된다.
 
----
-## [용어][3]
-> SSL은 서버 인증(Server Authentication), 클라이언트 인증(Client Authentication)  
-> 그리고 데이타 암호화(Data Encryption) 기능을 제공  
-> **인증(Authentication)** 통신의 상대방이 맞는지 확인하는 절차를 의미  
-> **암호화**는 데이타가 누출되더라도 외부에서 이 내용을 해독할 수 없게 하는 걸 의미  
+## [인증서 (Certificate)][3]
+ 인증서란 공개키 인증서(Public key certificate) 또는 전자 인증서(Digital certificate)로 불린다. 인증서는 **공개 키의 소유권을 확인 할 수 있도록 하기 위한 용도로** 만들어진 전자 문서이며 아래와 같은 내용이 포함된다. 
+-	Subject: 해당 인증서를 발급 받은 대상 (즉, 소유주를 나타냄)
+-	Issuer: 인증서를 발행한 대상
+-	Key usage:  키의 사용 처 (ex. digital signature validation, key encipherment,  signing …)
+-	Public key: 해당 Subject의 공개 키
+-	Signature:  Issuer의 개인 키로 생성한 서명 값
 
-## [X.509 인증서 (Certificate)][2]
-> X.509는 암호학에서 공개키 인증서와 인증알고리즘의 표준 가운데에서 공개 키 기반(PKI)의 ITU-T 표준이다.
+## [X.509 인증서][4]
+X.509 인증서는 공개키 인증서로 널리 사용 되는 ITU-T 표준이다. 각 인증서는 트리(Tree) 구조를 이루면서 상위 인증서(Issuer)에 의해 하위 인증서(Subject)가 서명 된다. 트리 구조에 최상위에 있는 인증서는 루트 인증서(Root certificate)라 칭하며 상위 인증서가 없기 때문에 자체 서명(self-signed)을 실시한다. 루트 인증서를 보유한 기관을 Root Certification Authority (Root CA)라 하며 기본적으로 Root CA는 신뢰 할 수 있다고 가정한다.
 
-- 인증서는 Tree와 같은 구조를 이루면서 인증서끼리 서명을 하게 됨.
-- Tree의 최상위 node 즉, root에 있는 인증서를 발행한 기관을 Root Certification Authority (Root CA)라 함.
-- 이 Root CA는 자체 서명 (self signed) 되어 있고 기본적으로 이 root CA는 신뢰 할 수 있다고 판단.  
-
-### X.509 v3 인증서 구조
-- Version 인증서의 버전을 나타냄
-- Serial Number CA가 할당한 정수로 된 고유 번호
-- Algorithm ID
-- Issuer
-- Validity
-  - Not Before
-  - Not After
-- Subject
-- Subject Public Key Info
-- Public Key Algorithm
-- Subject Public Key
-- Issuer Unique Identifier (Optional)
-- Subject Unique Identifier (Optional)
-- Extensions (Optional)
-...
-- Certificate Signature Algorithm
-- Certificate Signature
-
-### X.509 인증서 확장자
->- .CER - CER 암호화 된 인증서. 복수의 인증서도 가능.
->- .DER - DER 암호화 된 인증서.
->- .PEM - (Privacy Enhanced Mail) **Base64로 인코딩** 된 인증서.
->  - "-----BEGIN CERTIFICATE-----"와 "-----END CERTIFICATE-----" 의 형식. 
->- .PFX - .p12 참조.
->- .P12 - PKCS#12, 공개 인증서와 **암호로 보호되는 개인 키**를 가질 수 있다(복수도 가능).  
-
+## X.509 인증서 확장자
+ X.509 인증서는 다양한 확장자를 가지며 HTTPS 통신을 위한 SSL인증서는 경우 주로 PEM 확장자가 사용 된다.
+- PEM: **Base64로 인코딩** 된 인증서
+	("-----BEGIN CERTIFICATE-----"로 시작하며 "-----END CERTIFICATE-----" 로 끝남)
+- DER: PEM 파일의 바이너리 포맷으로 된 인증서
+- P12 - PKCS#12, 공개키 인증서와 **암호로 보호되는 개인 키**를 포함한 인증서
 > PKCS#12는 PFX(**개인 정보 교환**:Personal inFormation eXchange)이 발전된 형태이며,
   하나의 파일에서 공개 / 개인 자료들을 교환할 때 쓰인다.
 
----
-
-## COMMON CERTIFICATE FORMATS
-
-### PEM Format 
-- It contains the **‘—–BEGIN CERTIFICATE—–” and “—–END CERTIFICATE—–”**며 statements.
-- Several PEM certificates and even the Private key can be included in one file.
-- But most platforms(eg:- Apache) expects the certificates and Private key to be in separate files.
-- They are **Base64 encoded ASCII files**.
-- extensions : .pem, .crt, .cer, .key
-- Apache and similar servers uses PEM format certificates
-
-## DER Format
-- It is a **Binary form of ASCII PEM format** certificate.
-- All types of Certificates & Private Keys can be encoded in DER format
-- They are Binary format files
-- extensions : .cer & .der
-- DER is typically used in Java platform
-
-NOTE: Only way to tell the difference between PEM .cer and DER .cer is to open the file 
-      in a Text editor and look for the BEGIN/END statements.
-
-< P7B/PKCS#7 >
-- They contain “—–BEGIN PKCS—–” & “—–END PKCS7—–” statements.
-- It can contain only Certificates & Chain certificates but not the Private key.
-- They are Base64 encoded ASCII files
-- extensions : .p7b, .p7c, .p7s
-- Several platforms supports it. eg:- Windows OS, Java Tomcat
-
-< PFX/PKCS#12 >
-- They are used for storing the Server certificate, any Intermediate certificates & Private key in one encryptable file.
-- They are Binary format files
-- extensions : .pfx, .p12
-- Typically used on Windows OS to import and export certificates and Private keys
-
----
-
-
-[1]:https://www.google.co.kr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwj7_veelZbRAhUN4mMKHbjJD3EQFggeMAA&url=https%3A%2F%2Fko.wikipedia.org%2Fwiki%2F%25EC%25A0%2584%25EC%259E%2590%25EC%2584%259C%25EB%25AA%2585&usg=AFQjCNEF8lnCfWrND41eP7kWRoG4Ncjs0A&sig2=zgr3FxNWR0p2L8OGCDKFjA&bvm=bv.142059868,d.cGc
-[2]:https://ko.wikipedia.org/wiki/X.509
-[3]:http://btsweet.blogspot.kr/2014/06/tls-ssl.html
+[1]:https://en.wikipedia.org/wiki/Digital_signature 
+[2]:https://en.wikipedia.org/wiki/Public_key_infrastructure
+[3]:https://en.wikipedia.org/wiki/Public_key_certificate
+[4]:https://en.wikipedia.org/wiki/X.509
