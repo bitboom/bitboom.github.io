@@ -51,7 +51,7 @@ C++ 문법상으로 보면 위의 예제는 재귀 템플릿이 호출 될 때�
 
 ```cpp
 template<typename... Args>
-Pack<Args...> Packing(Args&&... args) {
+Pack<Args...> make_pack(Args&&... args) {
 	return Pack<Args...>(std::forward<Args>(args)...);
 }
 ```
@@ -82,7 +82,7 @@ struct Pack<Front, Rest...> : public Pack<Rest...> {
 };
 
 template<typename... Args>
-Pack<Args...> Packing(Args&&... args) {
+Pack<Args...> make_pack(Args&&... args) {
 	return Pack<Args...>(std::forward<Args>(args)...);
 }
 
@@ -98,13 +98,12 @@ struct Noisy
 };
 
 int main() {
-
 // Best solution
 	Noisy n0, n1, n2;
-	auto rvo_pack = Packing(n0, n1, n2); // It is better solution with compiler
+	auto rvo_pack = make_pack(n0, n1, n2); // It is better solution with compiler
 
 /*
-	auto rvalue_pack = Packing(Noisy(), Noisy(), Noisy());
+	auto rvalue_pack = make_pack(Noisy(), Noisy(), Noisy());
 */
 
 /*
