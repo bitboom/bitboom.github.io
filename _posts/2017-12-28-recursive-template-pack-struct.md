@@ -254,6 +254,7 @@ Pack<Args...> make_pack(Args&&... args) {
 		});
 
 */
+```
 
 #### LEVEL 6 : Apply generic lambda in c++11
 - LEVEL5는 pack의 인자로 같은 타입의 lambda만 가능
