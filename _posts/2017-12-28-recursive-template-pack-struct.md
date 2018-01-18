@@ -114,4 +114,284 @@ int main() {
 	return 0;
 }
 ```
+
+## Tutorial
+
+#### LEVEL 1 : Type safe variadic template
+- variadic template은 직접 순회를 할 수 없음
+- recursive template를 이용해야함 
+
+```cpp
+void process(void) // base condition
+{
+	std::cout << "Base condition: non-parameter" << '\n';
+}
+
+template<typename T1, typename... Tn>
+void process(T1&& arg1, Tn&&... args)
+{
+	handle(std::forward<T1>(arg1));
+	process(std::forward<Tn>(args)...);
+}
+```
+#### LEVEL 2 : Prohibit empty parameter
+- LEVEL 1은 개수가 0인 parameter를 허용함
+- 모든 process의 호출은 개수의 상관없이 base condition을 호출함
+
+```cpp
+
+void handle(int value) { std::cout << "interger: " << value << '\n'; }
+void handle(const std::string& value) { std::cout << "string: " << value << '\n'; }
+void handle(double value) { std::cout << "double: " << value << '\n'; }
+
+template<typename T>
+void process(T&& arg)
+{
+	handle(arg);
+}
+
+template<typename T1, typename... Tn>
+void process(T1 arg1, Tn.. args)
+{
+	handle(arg1);
+	process(args...);
+}
+
+// process(1, 2, 4.3, "test");
+```
+
+#### LEVEL 3 : Perfect forwaridng
+- LEVEL 2은 parameter의 복제가 일어남
+- literal형은 const 참조만 받을 수 있기에 참조형으로 인자를 선택할 수 없음
+
+```cpp
+void handle(int value) { std::cout << "interger: " << value << '\n'; }
+void handle(const std::string& value) { std::cout << "string: " << value << '\n'; }
+void handle(double value) { std::cout << "double: " << value << '\n'; }
+
+template<typename T>
+void process(T&& arg)
+{
+	handle(std::forward<T>(arg));
+}
+
+template<typename T1, typename... Tn>
+void process(T1&& arg1, Tn&&... args)
+{
+	handle(std::forward<T1>(arg1));
+	process(std::forward<Tn>(args)...);
+}
+
+// process(1, 2, 4.3, "test");
+```
+
+#### LEVEL 4 : As class
+```cpp
+template<typename... Base>
+class Variadic {
+	explicit Variadic() {} 
+};
+
+template<typename Front, typename... Rest>
+class Variadic<Front, Rest...> : private Variadic<Rest...> {
+public:
+	using Type = Front;
+
+	explicit Variadic(Front front, Rest... rest) : Base(rest...), value(front) {} 
+
+	Type value;
+
+private:
+	using Base = Variadic<Rest...>;
+}; 
+```
+
+#### LEVEL 5 : Apply lambda
+```cpp
+template<typename... Unpaked>
+struct Pack {
+	int size() const noexcept { return 0; }
+
+	template<typename Closure>
+	void apply(Closure&& closure) {}
+};
+
+template<typename Front, typename... Rest>
+struct Pack<Front, Rest...> : public Pack<Rest...> {
+	using Type = Front;
+	using Base = Pack<Rest...>;
+
+	Pack(Front front, Rest... rest) : Base(rest...), value(front) {}
+
+	int size() const noexcept { return Base::size() + 1; }
+
+	template<typename Closure>
+	void apply(Closure&& closure) {
+		Base::apply(std::forward<Closure>(closure));
+		closure(this->value);
+	}
+
+	Type value;
+};
+
+template<typename... Args>
+Pack<Args...> make_pack(Args&&... args) {
+	return Pack<Args...>(std::forward<Args>(args)...);
+}
+
+/* test
+
+	struct Data {
+		int id;
+	};
+
+	Data n0{0}, n1{1}, n2{2};
+	auto pack = make_pack(n0, n1, n2);
+	std::cout << pack.size() << std::endl;
+
+	pack.apply([](Data d){
+			std::cout << "Closure: " << d.id << std::endl;
+		});
+
+*/
+
+#### LEVEL 6 : Apply generic lambda in c++11
+- LEVEL5는 pack의 인자로 같은 타입의 lambda만 가능
+- c++11은 generic lambda를 사용할 수 없기에
+- c++11에서 사용 가능하려면 Closure를 흉내 내어서 구현
+
+```cpp
+#include <iostream>
+
+#include <vector>
+#include <string>
+#include <tuple>
+
+struct Data {
+	int id;
+};
+
+struct Data2 {
+	int id;
+};
+
+template<typename... Unpaked>
+struct Pack {
+	int size() const noexcept { return 0; }
+
+	template<typename Closure>
+	void apply(Closure&& closure) {}
+};
+
+template<typename Front, typename... Rest>
+struct Pack<Front, Rest...> : public Pack<Rest...> {
+	using Type = Front;
+	using Base = Pack<Rest...>;
+
+	Pack(Front front, Rest... rest) : Base(rest...), value(front) {}
+
+	int size() const noexcept { return Base::size() + 1; }
+
+	template<typename Closure>
+	void apply(Closure&& closure) {
+		Base::apply(std::forward<Closure>(closure));
+		closure(this->value);
+	}
+
+	Type value;
+};
+
+template<typename... Args>
+Pack<Args...> make_pack(Args&&... args) {
+	return Pack<Args...>(std::forward<Args>(args)...);
+}
+
+struct Closure {
+	template<typename Type>
+	void operator()(Type value) {
+		std::cout << "Closure: " << value.id << std::endl;
+	}
+};
+
+int main() {
+	Data n0{0}, n1{1};
+	Data2 n2{3};
+	auto pack = make_pack(n0, n1, n2);
+	std::cout << pack.size() << std::endl;
+
+	pack.apply(Closure());
+
+	return 0;
+}
+```
+#### LEVEL 7 : Hiding information of Base class
+```cpp
+#include <vector>
+#include <string>
+#include <tuple>
+
+struct Data {
+	int id;
+};
+
+struct Data2 {
+	int id;
+};
+
+template<typename... Unpaked>
+struct Pack {
+	int size() const noexcept { return 0; }
+
+	template<typename Closure>
+	void apply(Closure&& closure) {}
+};
+
+template<typename Front, typename... Rest>
+struct Pack<Front, Rest...> : public Pack<Rest...> {
+	using Type = Front;
+
+	int size() const noexcept { return Base::size() + 1; }
+
+	Pack(Front front, Rest... rest) : Base(rest...), value(front) {}
+
+	template<typename Closure>
+	void apply(Closure&& closure) {
+		Base::apply(std::forward<Closure>(closure));
+		closure(this->value);
+	}
+
+	Type value;
+
+private:
+	using Base = Pack<Rest...>;
+};
+
+template<typename... Args>
+Pack<Args...> make_pack(Args&&... args) {
+	return Pack<Args...>(std::forward<Args>(args)...);
+}
+
+struct Closure {
+	template<typename Type>
+	void operator()(Type value) {
+		std::cout << "Closure: " << value.id << std::endl;
+	}
+};
+
+int main() {
+	Data n0{0}, n1{1};
+	Data2 n2{3};
+	auto pack = make_pack(n0, n1, n2);
+	std::cout << pack.size() << std::endl;
+
+	pack.apply(Closure());
+
+//	Pack<Data, Data, Data2> dpack(n0, n1, n2);
+//	std::cout << dpack.size() << std::endl;
+
+//	Pack<Data, Data, Data2>::Base basePack(Data(), Data());
+
+	return 0;
+}
+```
 [1]: http://en.cppreference.com/w/cpp/language/parameter_pack
