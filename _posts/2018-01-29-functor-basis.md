@@ -1,3 +1,9 @@
+---
+layout: post
+title: About functor
+tags: [c++] 
+---
+
 ### [Function Object][1]
 > A function object is any object for which the function call operator is defined.  
 
