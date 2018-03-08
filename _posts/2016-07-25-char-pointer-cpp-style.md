@@ -16,10 +16,8 @@ unique_ptr로 다룬다면 아래와 같은 code로 깔끔하게 작성 할 수 
     ..
     free(str);
     
-//c++ style
-    char* ptr = getNewStrFunc();
-    std::unique_ptr<char[]> str(std::strlen(ptr) + 1);
-    str.reset(ptr);
+// modern c++ style
+    std::unique_ptr<char[]> str(getNewStrFunc());
 ``` 
 
 만약 size를 알고 있거나 넉넉하게 잡을 수 있는(다시 resize 가능)하다면  
