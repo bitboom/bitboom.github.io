@@ -4,8 +4,6 @@ title:  Control Flow Integrity
 tags: [cfi]
 ---
 
-# CFI (Control Flow Integrity)
-
 ## Introduction
 - Programmer -> Meomory management 
 	- The feature of low-level language (c, c++)
