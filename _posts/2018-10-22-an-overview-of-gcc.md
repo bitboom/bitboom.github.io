@@ -35,7 +35,7 @@ tags: [gcc]
 
 ---
 
-# Front End
+# Front end
 - The front end transforms the input program into an intermediate representation (IR) for further processing by the middle end.
 - The purpose of the front end is to read the source file, parse it, and convert it into **the standard abstract syntax tree (AST) representation.**
 - The AST is then used to generate a register-transfer language (RTL) tree.
@@ -44,7 +44,7 @@ tags: [gcc]
 
 ---
 
-# Middle End
+# Middle end
 - After ther front end, the middle end part of the compiler takes control.
 - First, the tree is converted into another representation called GIMPLE.
 - In this form, each expression contains **no more than three operands**.
