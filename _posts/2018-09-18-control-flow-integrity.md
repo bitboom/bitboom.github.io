@@ -4,7 +4,7 @@ title:  Control Flow Integrity
 tags: [cfi]
 ---
 
-## Introduction
+# Introduction
 - Programmer -> Meomory management 
 	- The feature of low-level language (c, c++)
 - Attacker -> Memory corruption attack
@@ -20,7 +20,7 @@ tags: [cfi]
 
 ---
 
-## What is control-flow? transfer? hijack? (1)
+# What is control-flow? transfer? hijack? (1)
 - Instruction set architecture (ISA)
 	- Computational instructions (one after the other)
 	- Control transfer instructions (transfer to target location)
@@ -34,7 +34,7 @@ tags: [cfi]
 
 ---
 
-## What is control-flow? transfer? hijack? (2)
+# What is control-flow? transfer? hijack? (2)
 - Control-flow
 	- The order in which individual instructions executed
 
@@ -43,7 +43,7 @@ tags: [cfi]
 
 ---
 
-## Control transfer instruction protection
+# Control transfer instruction protection
 - Direct transter instruction
 	- Not complicated
 	- Memory pages(SW), MMU(HW) -> read-only permission
@@ -70,7 +70,7 @@ Information attack | Data Space Randomization
 
 ---
 
-## Control-flow hijack attack
+# Control-flow hijack attack
 1. Modify a code pointer to the address of shellcode/gadget
 	- Defense by ASLR
 2. Use pointer by indirect transfer instruction(call/jump or return)
@@ -82,13 +82,13 @@ Information attack | Data Space Randomization
 
 ---
 
-## Control-Flow Integrity
+# Control-Flow Integrity
 - <span style="color:red">Ensure that the control-flow</span> of the application stays within the CFG.
 - <span style="color:red">Restrict the set of targets</span> to which an attacker might redirect the control-flow of a program.
 
 ---
 
-## How to enfoce the CFI?
+# How to enfoce the CFI?
 
 1. Generate CFG
 2. <span style="color:red"> Enumerate all possible targets </span>
@@ -97,7 +97,7 @@ Information attack | Data Space Randomization
 
 ---
 
-## Before enforcing CFI
+# Before enforcing CFI
 
 ```cpp
 void bar(); void baz(); void buz(); void bez(int, int);
@@ -116,7 +116,7 @@ void foo(int usr) {
 
 ---
 
-## After enforcing CFI
+# After enforcing CFI
 
 ```cpp
 void bar(); void baz(); void buz(); void bez(int, int);
@@ -144,6 +144,7 @@ void foo(int usr) {
 
 ---
 
+# Kind of CFI
 ## Forward-edge CFI
 - Monitor a new location by using indirect jump and indirect call instructions
 	- Indirect function call, virtual table call, switch statement
@@ -159,7 +160,7 @@ void foo(int usr) {
 
 ---
 
-## [Enforcing Forward-Edge Control-Flow Integrity in GCC & LLVM (Google 2014)][3]
+# [Enforcing Forward-Edge Control-Flow Integrity in GCC & LLVM (Google 2014)][3]
 > CFI implementations have been research prototypes . . .
 > Implementations of **fine-grained, forward-edge CFI enforcement** and analysis for GCC and LLVM.
 
@@ -171,7 +172,7 @@ void foo(int usr) {
 
 ---
 
-## Think over..
+# Think over..
 - Cpp Exceptions
 - Interrupts
 - Dynamic loading library
@@ -179,7 +180,7 @@ void foo(int usr) {
  
 ---
 
-## Refereces
+# Refereces
 - Enforcing Forward-Edge Control-Flow Integrity in GCC & LLVM, Google Inc, USENIX 2014
 - A Fine-Grained Control Flow Integrity Approach Against Runtime Memory Attacks for Embedded Systems, IEEE 2016
 - SoK: Eternal War in Memory, ACM 2013
