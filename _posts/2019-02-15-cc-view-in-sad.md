@@ -43,3 +43,19 @@ C&C View는 UML의 컴포넌트 다이어그램(Component Diagram)으로 그릴 
 컴포넌트와 모듈을은 "시스템이 어떻게 동작하는가, Technical View"를 표현하는 것과 "시스템이 어떻게 구현되는가, Function View"를 표현하는 것으로 구분 할 수 있다. 
 
 **두 개의 명확한 관계를 구분하는 것보다 중요한 것은 "표현이 시스템의 구조를 잘 설명할 수 있는가"이다.**
+
+---
+
+# Provided Interface(PI)와 Require Interface(RI)의 경계
+컴포넌트 다이어그램을 그릴 때 PI와 RI는 정해져 있지 않다.  
+
+예를 들어 MVC패턴에서 컨트롤러와 모델의 관계를 구성 할 때, 아래와 같이 Controller가 인터페이스를 제공하는 "Controller -O)- Model"의 구조가 될 수 있고.
+```cpp
+	Controller.setValue(Model.data);
+```
+
+또한 아래와 같이 Controller가 인터페이스를 사용하는 "Controller -(O- Model"의 구조가 될 수 있다.
+
+```cpp
+	Controller.Model.setValue();
+```
