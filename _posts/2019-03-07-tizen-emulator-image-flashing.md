@@ -24,7 +24,7 @@ emulator-sysdata.img
 emulator-rootfs.img
 ```
 
-2. 이미지 파일 시스템 검사
+2. 이미지 파일 시스템 검사  
 ```sh
 $ e2fsck -f emulator-rootfs.img 
 e2fsck 1.42.9 (4-Feb-2014)
@@ -44,6 +44,7 @@ Pass 4: Checking reference counts
 Pass 5: Checking group summary information
 emulator-sysdata: 1198/8000 files (1.9% non-contiguous), 17490/25959 blocks
 ```
+
 3. 이미지 파일 시스템 리사이징 (2G) = (1 block = 512 byte) * 4K
 ```sh
 $ resize2fs emulator-rootfs.img 2G
