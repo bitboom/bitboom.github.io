@@ -34,7 +34,6 @@ Pass 3: Checking directory connectivity
 Pass 4: Checking reference counts
 Pass 5: Checking group summary information
 emulator-rootfs: 21087/80000 files (0.5% non-contiguous), 299293/306171 blocks
-
 $ e2fsck -f emulator-sysdata.img 
 e2fsck 1.42.9 (4-Feb-2014)
 Pass 1: Checking inodes, blocks, and sizes
@@ -45,13 +44,12 @@ Pass 5: Checking group summary information
 emulator-sysdata: 1198/8000 files (1.9% non-contiguous), 17490/25959 blocks
 ```
 
-3. 이미지 파일 시스템 리사이징 (2G) = (1 block = 512 byte) * 4K
+3. 이미지 파일 시스템 리사이징 (2G) = (1 block = 512 byte) * 4K  
 ```sh
 $ resize2fs emulator-rootfs.img 2G
 resize2fs 1.42.9 (4-Feb-2014)
 Resizing the filesystem on emulator-rootfs.img to 524288 (4k) blocks.
 The filesystem on emulator-rootfs.img is now 524288 blocks long.
-
 $ resize2fs emulator-sysdata.img 2G 
 resize2fs 1.42.9 (4-Feb-2014)
 Resizing the filesystem on emulator-sysdata.img to 524288 (4k) blocks.
