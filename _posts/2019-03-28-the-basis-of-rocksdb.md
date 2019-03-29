@@ -35,7 +35,6 @@ class DB {
   // Caller should delete *dbptr when it is no longer needed.
   static Status Open(const Options& options, const std::string& name,
                      DB** dbptr);
-                     
 // virtual Status Close() { return Status::NotSupported(); }
 ```
 ### Example - Opening & Closing
@@ -44,11 +43,9 @@ DB* db;
 Options options;
 // Create the DB if it's not already present
 options.create_if_missing = true;
-
 // Open DB
 Status s = DB::Open(options, kDBPath, &db);
 assert(s.ok());
-  
 // Close DB
 delete db;
 ```
