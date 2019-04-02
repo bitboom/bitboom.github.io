@@ -79,7 +79,7 @@ $ gcc shell.c sqlite3.c -o sqlite3 -lpthread -ldl
 2. Change "#include <sqlite3ext.h> to #include "sqlite3ext.h" in csv.c
 ```sh
 # Build csv as shared lib
-gcc -g -fPIC -shared csv.c -o csv.o
+gcc -g -fPIC -shared csv.c -o csv.so
 ```
 
 ## Run sqlite3 with csv extension
