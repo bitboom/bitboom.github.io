@@ -88,6 +88,15 @@ def members(member_list):
     struct.members = member_list
 ```
 
+# #3 Render template with Jinja2
+#1에서 생성한 템플릿에 #2에서 뽑아낸 데이터를 파라미터로 넘겨주어 렌더링한다.
+```python
+jinja2.Template(HEADER_TEMPLATE).render(
+            name=self.name,
+            members=self.members
+        )
+```
+
 ---
 
 # Full example
