@@ -26,10 +26,10 @@ libkcapi를 사용하지 않고 C++에서 Crypto API를 사용하는 간단한 �
 struct sockaddr_alg sa; 
 std::memset(&sa, 0, sizeof(sa));
 sa.salg_family = AF_ALG;
-
+//
 std::string type = "hash";
 snprintf((char *)sa.salg_type, sizeof(sa.salg_type),"%s", type.c_str());
-
+//
 std::string ciphername = "sha256";
 snprintf((char *)sa.salg_name, sizeof(sa.salg_name),"%s", ciphername.c_str());
 ```
@@ -37,16 +37,16 @@ snprintf((char *)sa.salg_name, sizeof(sa.salg_name),"%s", ciphername.c_str());
 ```cpp
 const int SHA256_DIGEST_SZ = 32;
 std::vector<unsigned char> buf(SHA256_DIGEST_SZ);
-
+//
 std::string plain = "Plain txt.";
-
+//
 int sockfd = socket(AF_ALG, SOCK_SEQPACKET, 0);
 ::bind(sockfd, (struct sockaddr *)&sa, sizeof(sa));
-
+//
 int accpfd = accept(sockfd, NULL, 0);
 ::write(accpfd, plain.c_str(), plain.size());
 ::read(accpfd, buf.data(), SHA256_DIGEST_SZ);
-
+//
 ::close(sockfd);
 ::close(accpfd);
 ```
