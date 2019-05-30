@@ -10,7 +10,7 @@
 **BSc, Computer Science**; Kookmin University, South Korea (2007-2010)
 
 ## Experience
-### Software Engineer, SAMSUNG (2014 - present)
+### Software Engineer, Samsung Electronics, Samsung Rearch, Security Team (2014 - present)
 
 **Open-source platform, Tizne OS** (over 1k commits)  
 - Unified Security Monitor Framework (present)
