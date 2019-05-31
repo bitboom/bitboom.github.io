@@ -7,7 +7,11 @@ tags: [sqlite]
 # Sqlite Virtual Table
 A virtual table is an object that presents an SQL table interface but which is not stored in the database file, at least not directly.
 > [The Virtual Table Mechanism Of SQLite](https://sqlite.org/vtab.html)  
-> The virtual table mechanism allows an application to publish interfaces that are accessible from SQL statements as if they were tables.
+> The virtual table mechanism allows an application to publish interfaces that are accessible from SQL statements as if they were tables.  
+>  
+> [Using SQLite by Jay A. Kreibich](https://www.oreilly.com/library/view/using-sqlite/9781449394592/ch10.html)  
+> This chapter looks at how to use and write virtual tables. A virtual table is a custom extension to SQLite that allows a developer to define the structure and contents of a table through code. To the database engine, a virtual table looks like any other table—a virtual table can be queried, updated, and manipulated using the same SQL commands that are used on other tables. The main difference is where the table data comes from. When processing a normal table, the SQLite library might access a database file to retrieve row and column values. In the case of a virtual table, the SQLite library calls in to your code to perform these functions and return data values. Your functions, in turn, can gather or calculate the requested data from whatever sources you want.  
+> Developing a virtual table implementation, which is known as an SQLite module, is a fairly advanced feature. This chapter should give you a good idea of what virtual tables are capable of doing and the basics of how to write your own module. We’ll be walking through the code for two different modules. The first is a fairly simple one that exposes some internal SQLite data as a table. The second example will allow read-only access to standard Apache httpd server logs.
 
 - A virtual table might represent an in-memory data structures.
 - Or it might represent a view of data on disk that is not in the SQLite format.
