@@ -15,7 +15,7 @@
 **Open-source platform, Tizne OS** (over 1k commits)  
 - Unified Security Monitor Framework (present)
 - Type Safed Query Builder (2018)
-  - Project: klay (qxx)
+  - Project: qxx
   - Role: Maintainer
   - Summary:
       - Provides query builder written in c++
