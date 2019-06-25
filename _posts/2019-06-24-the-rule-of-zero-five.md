@@ -33,8 +33,7 @@ Martinho Fernandes와 Scott Meyers는 자신의 블로그에 the rule of zero와
 
 핵심은 모든 클래스를 아래 둘 중 하나로 작성하라는 것이다.
 
-1. 5-CGF를 모두 작성한 클래스  
-
+### #1. 5-CGF를 모두 작성한 클래스  
 ```cpp
 class X {
 public:
@@ -46,8 +45,7 @@ public:
   /// member functions
 };
 ```
-
-2. 5-CGF를 모두 작성하지 않은 클래스.
+### #2. 5-CGF를 모두 작성하지 않은 클래스
 ```cpp
 class X {
   /// member functions
@@ -58,10 +56,9 @@ class X {
 
 ## The Rule of Five Default
 
-> Rule of the Five Defaults: Classes that declare custom destructors, copy/move constructors or copy/move assignment operators should deal exclusively with ownership. All other classes should explicitly default their destructors, copy/move constructors and copy/move assignment operators.
+> Rule of the Five Defaults: Classes that declare custom destructors, copy/move constructors or copy/move assignment operators should deal exclusively with ownership. All other classes should explicitly default their destructors, copy/move constructors and copy/move assignment operators.  
 
 이 규칙의 핵심은x모든 클래스의 5-CGF를 구현 되어야 한다는 것이다. 구현이 필요 없는 경우(trivial)도 "= default"로 작성 하라는 것이다. (디버그용이나 나중에 5-CGF 중 하나를 구현하게 되었을 때를 대비)  
-
 ```cpp
 class X {
 public:
@@ -73,7 +70,6 @@ public:
   /// member functions
 };
 ```
-
 이 외에도 비슷한 맥락으로 [The Rule of All or Nothing](https://arne-mertz.de/2015/02/the-rule-of-zero-revisited-the-rule-of-all-or-nothing/)와 같이 각자의 견해로 5-CGF에 대한 규칙을 정하고 있다.
 
 ---
