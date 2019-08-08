@@ -107,16 +107,16 @@ I like C++ style so far.
 static int nthreads = 10;
 
 int main() {
-	std::vector<std::thread> children;
+    std::vector<std::thread> children;
 
-	for (int i = 0; i < nthreads; i++)
-		children.emplace_back([] {
-			std::cout << "this is thread number" << i << std::endl;
-		});
+    for (int i = 0; i < nthreads; i++)
+        children.emplace_back([] {
+            std::cout << "this is thread number" << i << std::endl;
+        });
 
-	for (auto& child : children)
-		child.join();
+    for (auto& child : children)
+        child.join();
 
-	return 0;
+    return 0;
 }
 ```
