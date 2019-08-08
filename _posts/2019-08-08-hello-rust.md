@@ -32,7 +32,7 @@ $ source ~/.bashrc
 ## Say "Hello, Rust!"
 Write down "hello.rs" and complie with rustc.
 ```rust
-/// hello.rs
+// hello.rs
 fn main() { println!("Hello, Rust!"); }
 ```
 ```sh
@@ -41,12 +41,13 @@ Hello, rust!
 ```
 I don't like curly bracket, but it's simple.  
 
-## User formatter
+## Use the formatter
 Rust provides and automatic formatter called rustfmt. Let's try to use rustfmt.
 ```sh
 $ rustfmt hello.rs
 ```
 ```rust
+// hello.rs
 fn main() {
     println!("Hello, Rust!");
 }
