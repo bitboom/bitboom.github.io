@@ -75,7 +75,8 @@ struct Foo {
 };
 
 Foo foo;
-```
+```  
+  
 | pointer | pointer | address |
 |:---:|:---:|:---:|
 | &foo | &foo.a | 0x00 |
@@ -87,7 +88,7 @@ Foo foo;
 |  |  | 0x06 |
 |  |  | 0x07 |
 |  | &foo.b | 0x08 |
-
+  
 We can check data-structure-alignment.
 ```cpp 
 struct Bar {
@@ -138,7 +139,7 @@ Let's see the third line. We can easily get structure address by subtracting off
 |  |  | 6 |
 |  |  | 7 |
 |  | &foo.b | 8 |
-
+  
 Note that "(char * )__ mptr". Since pointer arithmetic depends it's type. "double * + 1" increases 8 bytes not 1 byte.
 So, we should cast to (char * ) for increasing 1 byte.
 
