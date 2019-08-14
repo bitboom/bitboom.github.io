@@ -13,15 +13,9 @@ tags: [kernel]
 
 ---
 
-## The effect of live patching
-- Apply critical security patches
-- It gives more control over uptime without sacrificing security or stability.
-
----
-
 ## [Why Live Patching Required?](https://events.static.linuxfound.org/sites/events/files/slides/LinuxConNA-kpatch-without-stopmachine_fixed.pdf)
 - Major updates needs rebooting
-- Some appliances can’t accept 10ms downtime
+- Some appliances can't accept 10ms downtime
 - In between the major updates, live patching will be used
 - **Live patching and major update are complement each other**
 	- Live patching temporarily fixes small critical incidents
@@ -32,9 +26,8 @@ tags: [kernel]
   minor  critical
   --------------->
    live patching     
-
 ```
-   
+
 ---
 
 ## History
@@ -50,16 +43,13 @@ tags: [kernel]
 
 ## kpatch components
 1. patch: a file to be patched (.patch file)
-2. kpatch-build: a collection of tools
+2. kpatch-build: a tool for building patch modules
 3. patch module: a kernel module (.ko file)
 4. [kpatch core module](https://github.com/dynup/kpatch/blob/master/kmod/core/core.c): a kernel module (.ko file)
 
-## kpatch works at a function granularity
-- kpatch works at a function granularity by ftrace
-
 ---
 
-## How it works - internal
+## kpatch workflow
 ```sh
 +---------+    +-----------------------+
 | patch   | => | kpatch-build          |
@@ -80,18 +70,7 @@ tags: [kernel]
 
 ---
 
-## How it works - command line
-```sh
-$ kpatch build meminfo.patch
-$ kpatch install kpatch-meminfo.ko
-$ kpatch list
-$ kpatch load kpatch-meminfo.ko
-$ kpatch unload kpatch-meminfo.ko
-```
-
----
-
-## How to patch
+## kpatch internal: working at a function granularity
 ```sh
                     foo()                   ftrace
 +------------+    +-------------+ hook +-----------------+
@@ -113,7 +92,6 @@ $ kpatch unload kpatch-meminfo.ko
                                        +-----------------+
                                        | ret             |
                                        +-----------------+
-
 ```
 
 ---
@@ -161,42 +139,18 @@ For using livepatch kernel API
 
 ---
 
-## [Kernel semaphore](https://elixir.bootlin.com/linux/latest/source/include/linux/semaphore.h#L28)
-
-```c
-// include/linux/semaphore.h
-#define DEFINE_SEMAPHORE(name)
-
-extern void down(struct semaphore *sem);
-extern void up(struct semaphore *sem);
-```
-
-- If semaphore == 0, a process cannot access shared data.
-- If semaphore > 0, a process can access shared data.
+##  Main kernel functions used
+- [semahpore](https://elixir.bootlin.com/linux/latest/source/include/linux/semaphore.h#L28)
+- [hashtable](https://elixir.bootlin.com/linux/latest/source/include/linux/hashtable.h)
+- [rcu](https://www.kernel.org/doc/Documentation/RCU/whatisRCU.txt)
+- [container_of](http://bitboom.github.io/analyze-containerof)
+- [do_each_thread](https://elixir.bootlin.com/linux/latest/source/include/linux/sched/signal.h#L571)
+- [stop_machine](https://elixir.bootlin.com/linux/latest/source/include/linux/stop_machine.h#L152)
+- [smp_wmb](https://elixir.bootlin.com/linux/latest/source/tools/include/asm/barrier.h#L43)
 
 ---
 
-## [Hash table](https://elixir.bootlin.com/linux/latest/source/include/linux/hashtable.h), [RCU](https://www.kernel.org/doc/Documentation/RCU/whatisRCU.txt)
-
-```c
-#define DEFINE_HASHTABLE(name, bits)	
-
-// add an object to a rcu enabled hashtable
-#define hash_add_rcu(hashtable, node, key)
-
-// remove an object from a rcu enabled hashtable
-static inline void hash_del_rcu(struct hlist_node *node)
-
-// iterate over a rcu enabled hashtable
-#define hash_for_each_rcu(name, bkt, obj, member)	
-
-// iterate over all possible objects hashing to the
-#define hash_for_each_possible_rcu(name, obj, member, key)
-```
-
----
-
-## [Patch function](https://github.com/dynup/kpatch/blob/master/kmod/core/kpatch.h)
+## Data Structure - [Patch function](https://github.com/dynup/kpatch/blob/master/kmod/core/kpatch.h)
 ```c
 struct kpatch_func {
   /* public */
@@ -217,7 +171,7 @@ struct kpatch_func {
 
 ---
 
-## [Patch module](https://github.com/dynup/kpatch/blob/master/kmod/core/kpatch.h)
+## Data Structure - [Patch module](https://github.com/dynup/kpatch/blob/master/kmod/core/kpatch.h)
 ```c
 struct kpatch_object {
   struct list_head list;
@@ -241,7 +195,7 @@ struct kpatch_object {
 
 ---
 
-## [kpatch - Core module](https://github.com/dynup/kpatch/blob/master/kmod/core/kpatch.h)
+## Data Structure - [kpatch - Core module](https://github.com/dynup/kpatch/blob/master/kmod/core/kpatch.h)
 ```c
 struct kpatch_module {
   /* public */
@@ -310,13 +264,11 @@ static int kpatch_link_object(struct kpatch_module *kpmod,
   mutex_lock(&module_mutex);
   // find the object module
   find_module(object->name);
-  
   try_module_get(mod);
   mutex_unlock(&module_mutex)
-  object->mod = mod;
   
   list_for_each_entry(func, &object->funcs, list) {
-    // lookup the old location
+    // lookup the old address by kallsyms_on_each_symbol 
     kpatch_find_object_symbol(...&func->old_addr);
     
     // add to ftrace filter and register handler if needed
@@ -324,6 +276,43 @@ static int kpatch_link_object(struct kpatch_module *kpmod,
   }
 }
 ```
+
+---
+
+## Pseudocode - kpatch_ftrace_add_func
+Register function to ftracy by setting filter
+```c
+static struct ftrace_ops kpatch_ftrace_ops __read_mostly = {
+  .func = kpatch_ftrace_handler,
+  .flags = FTRACE_OPS_FL_SAVE_REGS | FTRACE_OPS_FL_IPMODIFY,
+}
+
+int kpatch_ftrace_add_func(unsigned long ip)
+{
+  ftrace_set_filter_ip(&kpatch_ftrace_ops, ip, 0, 0);
+}
+```
+
+---
+
+## Pseudocode - kpatch_ftrace_handler
+This is where the magic happens.  
+Update regs->ip to tell ftrace to return to the new function.
+```c
+void kpatch_ftrace_handler(unsigned long ip ...,
+                           struct pt_regs *regs)
+{
+  preempt_disable_notrace();
+  
+  // find func from hash (hash_for_each_possible_rcu)
+  func = kpatch_get_func(ip);
+  regs->ip = func->new_addr + MCOUNT_INSN_SIZE;
+  
+  preempt_enable_notrace();
+}
+```
+
+- [MCOUNT_INSN_SIZE](https://elixir.bootlin.com/linux/v4.6/source/arch/arm/include/asm/ftrace.h#L6) -  sizeof mcount call
 
 ---
 
@@ -352,52 +341,38 @@ static int kpatch_apply_patch(void *data)
 
 ---
 
-## Pseudocode - kpatch_ftrace_add_func
-
+## Pseudocode - kpatch_verify_activeness_safety
+Verify activeness safety, that none of the to-be-patched functions are on the stack of any task.
+This function is called from stop_machine() context.
 ```c
-int kpatch_ftrace_add_func(unsigned long ip)
+int kpatch_verify_activeness_safety(... *kpmod)
 {
-  ftrace_set_filter_ip(&kpatch_ftrace_ops, ip, 0, 0);
+  struct task_struct *g, *t;
+  
+  // check the stacks of all tasks
+  do_each_thread(g, t) {
+    save_stack_trace_tsk(t, &trace);
+    for (i = 0; i < trace.nr_entries; i++)
+      // iterate kpatch functions compare to second argument
+      kpatch_backtrace_address_verify(kpmod,
+                                      trace.entries[i]);
+  } while_each_thread(g, t);
 }
-
-static struct ftrace_ops kpatch_ftrace_ops __read_mostly = {
-  .func = kpatch_ftrace_handler,
-  .flags = FTRACE_OPS_FL_SAVE_REGS | FTRACE_OPS_FL_IPMODIFY,
-}
-
 ```
 
 ---
 
-## Pseudocode - kpatch_ftrace_handler
-This is where the magic happens.  
-Update regs->ip to tell ftrace to return to the new function.
-
-```c
-void kpatch_ftrace_handler(unsigned long ip ...,
-                           struct pt_regs *regs)
-{
-  preempt_disable_notrace();
-  
-  func = kpatch_get_func(ip);
-  regs->ip = func->new_addr + MCOUNT_INSN_SIZE;
-  
-  preempt_enable_notrace();
-}
-```
-
-- [MCOUNT_INSN_SIZE](https://elixir.bootlin.com/linux/v4.6/source/arch/arm/include/asm/ftrace.h#L6) -  sizeof mcount call
-
----
-
-# Ref
+# Ref #1
+https://www.kernel.org/doc/Documentation/livepatch/livepatch.txt
 https://www.kernel.org/doc/Documentation/memory-barriers.txt
 https://www.kernel.org/doc/html/v4.11/driver-api/basics.html
 https://www.kernel.org/doc/Documentation/trace/ftrace.txt
-https://www.kernel.org/doc/Documentation/livepatch/livepatch.txt
 
-https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html-single/kernel_administration_guide/index#chap-Documentation-Kernel_Administration_Guide-Working_With_Kpatch
-https://www.redhat.com/en/blog/introducing-kpatch-dynamic-kernel-patching?source=blogchannel&channel=blog/channel/red-hat-enterprise-linux&search=kpatch
-https://www.redhat.com/en/blog/live-kernel-patching-update?source=blogchannel&channel=blog/channel/red-hat-enterprise-linux&search=kpatch
+---
 
-https://events.static.linuxfound.org/sites/events/files/slides/kpatch-linuxcon_3.pdf
+# Ref #2
+[redhet #1](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html-single/kernel_administration_guide/index#chap-Documentation-Kernel_Administration_Guide-Working_With_Kpatch)
+[redhet #2](https://www.redhat.com/en/blog/introducing-kpatch-dynamic-kernel-patching?source=blogchannel&channel=blog/channel/red-hat-enterprise-linux&search=kpatch)
+[redhet #3](https://www.redhat.com/en/blog/live-kernel-patching-update?source=blogchannel&channel=blog/channel/red-hat-enterprise-linux&search=kpatch)
+
+[linuxfound](https://events.static.linuxfound.org/sites/events/files/slides/kpatch-linuxcon_3.pdf)
