@@ -5,7 +5,7 @@
 
 ## Education
 **MSc, Computer Science**; Yonsei University, South Korea (2010-2014)
-- *Thesis title: Proxy based application digital signature validation system*  
+- *Paper: Proxy based application digital signature validation system*  
 
 **BSc, Computer Science**; Kookmin University, South Korea (2007-2010)
 
@@ -16,29 +16,36 @@
 - Unified Security Monitor Framework (present)
 - Type Safed Query Builder (2018)
   - Project: qxx
-  - Role: Maintainer
+  - Role: maintainer
   - Summary:
-      - Provides query builder written in c++
+      - Provide query builder written in c++
   - Feature:
       - Type safed query builder (type checked at compile time)
 - RPC Framework (C++ RMI) (2018)
   - Project: klay (rmi)
   - Role: developer
   - Summary:
-      - Provides RMI(remote method invocation) between server and client written in c++
+      - Provide RMI(remote method invocation) between server and client written in c++
 - Authentication Framework (2017 - 2018)
    - Project: auth-fw
    - Role: developer
    - Summary:
-      - Provides authentificate service to manage password on Tizen
+      - Provide authentificate service to manage password on Tizen
    - Feature:
       - Adjusted plugin architecture for supporting trust-zone
       - On-demand service with dbus socket activation
-- Certification Framework (2016 - 2017)
-   - Project: cert-svc, cert-svc-ui, cert-checke
+- Certification Framework #2 (2017)
+   - Project: trust-anchor
+   - Role: maintainer
+   - Summary:
+      - Provide certificate service to assign own ssl certificates by application which invisible to other applications
+   - Feature:
+      - SSL certificate trust anchor
+- Certification Framework #1 (2016 - 2017)
+   - Project: cert-svc, cert-svc-ui, cert-checker
    - Role: developer
    - Summary:
-      - Provides certificate service to manage user and system certificates and to support application's certificate related function.
+      - Provide certificate service to manage user and system certificates and to support APIs related application's certificate
    - Feature:
       - Comply with [W3C xml digital signatures](https://www.w3.org/TR/widgets-digsig/)
       - X.509 ceritifcates
