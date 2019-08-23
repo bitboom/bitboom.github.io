@@ -76,12 +76,12 @@ virtual Status Get(const ReadOptions& options, const Slice& key,
 s = db->Put(WriteOptions(), "key1", "value");
 assert(s.ok());
 std::string value;
-
+//
 // Get value
 s = db->Get(ReadOptions(), "key1", &value);
 assert(s.ok());
 assert(value == "value");
-
+//
 // Delete value
 if (s.ok()) s = db->Delete(rocksdb::WriteOptions(), key1);
 assert(s.ok());
@@ -102,18 +102,17 @@ assert(s.ok());
 - rocskdb::Slice is a simple structure that contains a length and a pointer to an external byte array.
 - Returning a Slice is a cheaper alternative to returning a std::string since we do not need to copy potentially large keys and values.
 - In addition, rocksdb methods do not return null-terminated C-style strings since rocksdb keys and values are allowed to contain '\0' bytes.
+
 ### Convert between std::string and rocksdb::Slice
 ```cpp
 // Convert slice to string
 rocksdb::Slice s1 = "hello";
-
+//
 std::string str("world");
 rocksdb::Slice s2 = str;
-
 // Convert string to slice
 std::string str = s1.ToString();
 assert(str == std::string("hello"));
-   
 // Careful
 // it is up to the caller to ensure that the external byte array into which the Slice points remains live while the Slice is in use. For example, the following is buggy
 rocksdb::Slice slice;
@@ -134,11 +133,10 @@ std::string string_val;
 // If it cannot pin the value, it copies the value to its internal buffer.
 // The intenral buffer could be set during construction.
 // string_val == internal buffer
-
 PinnableSlice pinnable_val(&string_val);
 db->Get(ReadOptions(), db->DefaultColumnFamily(), "key2", &pinnable_val);
 assert(pinnable_val == "value");
-
+//
 // If the value is not pinned, the internal buffer must have the value.
 assert(pinnable_val.IsPinned() || string_val == "value");
 ```
@@ -152,13 +150,12 @@ assert(pinnable_val.IsPinned() || string_val == "value");
 struct ColumnFamilyOptions;
 struct ColumnFamilyDescriptor; // Option + name
 class ColumnFamilyHandle;
-
 // Create a column_family and return the handle of column family
 // through the argument handle.
 virtual Status CreateColumnFamily(const ColumnFamilyOptions& options,
                                     const std::string& column_family_name,
                                     ColumnFamilyHandle** handle);
-
+//
 // Bulk create column families.
 // Return the handles of the column families through the argument handles.
 // In case of error, the request may succeed partially, and handles will
@@ -167,7 +164,7 @@ virtual Status CreateColumnFamily(const ColumnFamilyOptions& options,
 virtual Status CreateColumnFamilies(
     const std::vector<ColumnFamilyDescriptor>& column_families,
     std::vector<ColumnFamilyHandle*>* handles);
-
+//
 // Bulk create column families with the same column family options.
 // Return the handles of the column families through the argument handles.
 // In case of error, the request may succeed partially, and handles will
@@ -178,6 +175,7 @@ virtual Status CreateColumnFamilies(
     const std::vector<std::string>& column_family_names,
     std::vector<ColumnFamilyHandle*>* handles);
 ```
+
 ### Example - Create ColumnFamilyhandle
 ```cpp
 // open DB
@@ -200,25 +198,25 @@ delete db;
 ```cpp
 // open DB with two column families
 std::vector<ColumnFamilyDescriptor> column_families;
-
+//
 // have to open default column family
 column_families.push_back(ColumnFamilyDescriptor(
     kDefaultColumnFamilyName, ColumnFamilyOptions()));
-
+//
 // open the new one, too
 column_families.push_back(ColumnFamilyDescriptor(
     "new_cf", ColumnFamilyOptions()));
 std::vector<ColumnFamilyHandle*> handles;
 s = DB::Open(DBOptions(), kDBPath, column_families, &handles, &db);
 assert(s.ok());
-
+//
 // put and get from non-default column family
 s = db->Put(WriteOptions(), handles[1], Slice("key"), Slice("value"));
 assert(s.ok());
 std::string value;
 s = db->Get(ReadOptions(), handles[1], Slice("key"), &value);
 assert(s.ok());
-
+//
 // atomic write
 WriteBatch batch;
 batch.Put(handles[0], Slice("key2"), Slice("value2"));
@@ -226,11 +224,11 @@ batch.Put(handles[1], Slice("key3"), Slice("value3"));
 batch.Delete(handles[0], Slice("key"));
 s = db->Write(WriteOptions(), &batch);
 assert(s.ok());
-
+//
 // drop column family
 s = db->DropColumnFamily(handles[1]);
 assert(s.ok());
-
+//
 // close db
 for (auto handle : handles) {
   delete handle;
