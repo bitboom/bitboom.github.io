@@ -4,9 +4,9 @@ title: An overview of kpatch-build
 tags: [kptach]
 ---
 
-# kptach-build
+# kpatch-build
 [Kpatch](http://bitboom.github.io/anatomy-of-kpatch) is a feature of the Linux kernel for livepatching made by Red Hat.  
-kpatch-build is one of the kpatch modules that converts patches files into kernel module.
+kpatch-build is one of the kpatch modules that convert patch files into kernel module.
 ```c
 +---------+    +---------------------+    +--------------+
 | patch   |    | kpatch-build        |    | patch module |
