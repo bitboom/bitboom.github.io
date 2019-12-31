@@ -56,4 +56,5 @@ Resizing the filesystem on emulator-sysdata.img to 524288 (4k) blocks.
 The filesystem on emulator-sysdata.img is now 524288 blocks long.
 ```
 
-4. 타이젠 스튜디오 >> 에뮬레이터 매니저(Emulator Manager) >> CREATE >> '+' >> Image File >> 압축 해제한 폴더 입력
+4. 타이젠 스튜디오 >> 에뮬레이터 매니저(Emulator Manager) >> CREATE >> '+' >> Image File
+   >> raw (type) 선택 >> 압축 해제한 폴더 입력 (선택 안되니 안에 image 2개 확인 후 
