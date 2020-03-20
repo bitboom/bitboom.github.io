@@ -86,7 +86,41 @@ TC side consists of library's code wich run in Enclave.
 The sample codes are here "[Enclave/TrustedLibrary](https://github.com/intel/linux-sgx/tree/master/SampleCode/SampleEnclave/Enclave/TrustedLibrary)".
 There is the pair of *.cpp and *.edl.
 
+## Enclave Signature
+> Measurement: As an enclave is instantiated
+> in a trusted environment,
+> an accurate and protected recording of
+> its identity is taken.
+
+Intel SGX architecture provides [digital siginature](https://en.wikipedia.org/wiki/Digital_signatur)
+for Enclave author (developer)
+called Enclave Signature.
+
+For digital signature, private key is needed.
+The sample private key is
+"[Enclave/Enclave_private.pem](https://github.com/intel/linux-sgx/blob/master/SampleCode/SampleEnclave/Enclave/Enclave_private.pem)".
+While build the enclave,
+sdk makes self-signed certificate using this.
+It is known as the Enclave Signature (SIGSTRUCT).
+The public key of author is registered
+to the MRSIGNER register
+after the enclave is initialized.
+
+**Enclave Integrity**:
+Using Enclave Signature,
+Intel SGX architecture detects
+whether any portion of the enclave file
+has been tampered with.
+
+After building sgx application,
+we can find out
+two shared library about enclave.
+One is `enclave.so` and anthor is `enclave.signed.so`.
+`enclave.signed.so` is signed by
+author's private key.
+
 ## Reference
 - [SGX 101 - Application design](http://www.sgx101.com/portfolio/application_design/)
 - [SGX 101 - Enclave lifecycle](http://www.sgx101.com/portfolio/enclave_lifecycle/)
+- [Intel Enclave Signature](https://software.intel.com/en-us/node/702979)
 - [Intel sgx sdk developer reference](https://01.org/sites/default/files/documentation/intel_sgx_sdk_developer_reference_for_linux_os_pdf.pdf)
