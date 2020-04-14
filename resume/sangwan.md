@@ -1,7 +1,7 @@
-
 # Sangwan Kwon
-> Email: bitboom9@gmail.com  
-> Phone: +82-10-9082-3548
+> Software Engineer, Associated Architecture certificate by Samsung  
+> Security Team, Samsung Research, Samsung Electronics  
+> Contacts: bitboom9@gmail.com  
 
 ## Education
 **MSc, Computer Science**; Yonsei University, South Korea (2010-2014)
@@ -9,11 +9,22 @@
 
 **BSc, Computer Science**; Kookmin University, South Korea (2007-2010)
 
-## Experience
-### Software Engineer, Samsung Electronics, Samsung Rearch, Security Team (2014 - present)
+## Technical Skills
+- Professional experience in Security Middleware Development
+- Proficient in Modern C++, System Programming, Opensource Platform
+- Strong understanding Object Oriented Programming, Design Pattern
 
-**Open-source platform, Tizne OS** (over 1k commits)  
-- Unified Security Monitor Framework (present)
+## Projects (Security Middlewares in Tizen OS, over 1k commits)
+- Query-based Universial Security API (present)
+  - Project: ViST
+  - Role: maintainer
+  - Summary:
+      - Provide unified interface of security functions
+  - Feature:
+      - Security virtual table: The object which be bound security functions
+      - Struct-based schema: The schema of security functions
+      - Query-based unified interface: The interface between query and virtual table
+      - Type-safe query builder: The query builder with type-error checking at compile time
 - Type Safed Query Builder (2018)
   - Project: qxx
   - Role: maintainer
@@ -57,8 +68,3 @@
 **Patent**
 - Container (Disclosure in 2020)
 - Data Protection (Disclosure in 2021)
-
-## Technical Skills
-- Proficient in C++, CMake, RPM, Git, Opensource platform
-- Experienced in Linux system programming, Shell Script, DBus
-- Strong understanding Object Oriented Programming, Design Pattern
