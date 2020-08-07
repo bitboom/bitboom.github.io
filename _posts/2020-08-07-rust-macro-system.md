@@ -46,21 +46,16 @@ replaces the code passed to the macro.
 Let's see the example which contains DSL technique.
 ```rust
 macro_rules! calculate {
-    (sum $e1:expr, $e2:expr) => {{
-        {
-            let var1: i32 = $e1;
-            let var2: i32 = $e2;
-            println!("The sum is = {}", var1 + var2);
-        }
-    }};
-    (mul $e1:expr, $e2:expr) => {{
-        {
-            let var1: i32 = $e1;
-            let var2: i32 = $e2;
-            println!("The mul is = {}", var1 * var2);
-        }
-    }};
-
+    (sum $e1:expr, $e2:expr) => {
+        let var1: i32 = $e1;
+        let var2: i32 = $e2;
+        println!("The sum is = {}", var1 + var2);
+    };
+    (mul $e1:expr, $e2:expr) => {
+        let var1: i32 = $e1;
+        let var2: i32 = $e2;
+        println!("The mul is = {}", var1 * var2);
+    };
 }
 
 fn main() {
@@ -96,24 +91,19 @@ I will only apply it to *sum*.
 
 ```rust
 macro_rules! calculate {
-    (sum $($e:expr),*) => {{
-        {
-            let mut sum: i32 = 0;
-            $(
-                let elem: i32 = $e;
-                sum += elem;
-            )*
-            println!("The sum is = {}", sum);
-        }
-    }};
-    (mul $e1:expr, $e2:expr) => {{
-        {
-            let var1: i32 = $e1; // Force types to be integers
-            let var2: i32 = $e2;
-            println!("The mul is = {}", var1 * var2);
-        }
-    }};
-
+    (sum $($e:expr),*) => {
+        let mut sum: i32 = 0;
+        $(
+            let elem: i32 = $e;
+            sum += elem;
+        )*
+        println!("The sum is = {}", sum);
+    };
+    (mul $e1:expr, $e2:expr) => {
+        let var1: i32 = $e1; // Force types to be integers
+        let var2: i32 = $e2;
+        println!("The mul is = {}", var1 * var2);
+    };
 }
 
 fn main() {
