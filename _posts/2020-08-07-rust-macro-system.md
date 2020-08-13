@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Rust Macro System
+title: Rust macro system and declarative macro
 tags: [rust]
 ---
 
 In this post,
-uses declarative macros
-to make DSL and variadic.
+it is about to use declarative macros
+to make DSL and variadic interface.
 
 ## Rust Macros
 > Fundamentally,
@@ -20,13 +20,13 @@ rust allows you to handle Abstract Syntax Tree,
 not just strings at preprocessor like C/C++.
 
 There are 5-types macros.
-- Declarative macros
-- Procedural Macros
-	- Custom derive Macro 
-	- Attribute-like macros
-	- Function-like macros
+- Declarative macro
+- Procedural macro
+	- Custom derive macro 
+	- Attribute-like macro
+	- Function-like macro
 
-We can use 3-techniques with them.
+With them, we can make several techniques like below.
 - [DRY (Don't Repeat Yourself)](https://doc.rust-lang.org/rust-by-example/macros/dry.html)
 - [Domain Specific Languages (DSLs)](https://doc.rust-lang.org/rust-by-example/macros/dsl.html)
 - [Variadic Interfaces](https://doc.rust-lang.org/rust-by-example/macros/variadics.html)  
@@ -73,21 +73,20 @@ The sum is = 3
 The mul is = 12
 ```
 
-There are two brances at calculate macro.
+There are two branches.
 One is *sum* and another is *mul*.
 
 Within () is *$name:expr* which matches
-any Rust expression and
-gives the expression the name $name.
-The each branch takes two expression *$e1 and $e2*.
+any Rust expression. And it
+gives matched expression the name as $name.
+The each branch of example
+takes two expression *$e1 and $e2*.
 
 We can force types to expression like *let var1: usize = $e1*.
 
-This looks nice technique.
-
 #### + Variadic
-Let's take variadic arguments.
-I will only apply it to *sum*.
+Let's take variadic arguments on above example.
+I will only apply it to *sum* to compare.
 
 ```rust
 macro_rules! calculate {
@@ -151,9 +150,11 @@ sum += elem;
 ```
 
 ## Summary
-We implemented DSL and variadic using declarative macros.
+Those examples are about
+DSL and variadic
+using declarative macro.
 Macros looks like a little weird,
-but it is very usable. 
+but it is very usable.
 If we use procedural macros together,
 we can make more powerful code. (compiler-plugin level!!)
 In the next post, let's look at procedural macros.
