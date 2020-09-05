@@ -58,6 +58,7 @@ wait.wait();
 actor
   |- context
        |- mailbox
+```
 
 - singleton
 
@@ -89,7 +90,6 @@ mailbox (lock-free)                    mailbox
 ```
 
 ```
-
 // m1
 Actor.start() ---------> ActorRef <----- ActorRef.send(Message)
 	|										|
@@ -101,3 +101,4 @@ Actor.start() ---------> ActorRef <----- ActorRef.send(Message)
 	|	|- Receiver --------channel()		|- Sender
 	|	|- Promise.set()					|- Future.get()
 	|- Handler(MessageFuture.get())
+```
