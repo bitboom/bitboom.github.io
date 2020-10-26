@@ -66,6 +66,20 @@ fn main() {
 }
 ```
 
+## string type
+Rust-core and serde-json-core do not support
+[std::string::String](https://doc.rust-lang.org/std/string/struct.String.html) type.
+
+For string, we should use [core::str](https://doc.rust-lang.org/core/str/index.html) like below.
+```rust
+let hello: &str = "Hello, world!";
+let serialized: heapless::String<U30> = serde_json_core::to_string(&hello).unwrap();
+let deserialized: &str = serde_json_core::from_str(&serialized).unwrap();
+println!("{}", deserialized);
+```
+
+Check [supported types](https://docs.rs/serde-json-core/0.1.0/serde_json_core/).
+
 ## Summary
 It is reasonable
 to specify the size of the string
