@@ -72,6 +72,10 @@ libhello.so
 Declare that `hello function` is outside
 with CABI `extern "C"`.
 
+> The extern keyword defines a function 
+> with a foreign calling convention and
+> is often used to communicate with C code. (extern "C" fn)
+
 ```
 // hello.cpp
 extern "C" void hello();
