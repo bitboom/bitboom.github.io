@@ -204,3 +204,6 @@ int main(void) {
 	std::cout << flipped.x << ", " << flipped.y << std::endl;
 }
 ```
+
+## Appendix
+- [rust-ffi-omnibus](http://jakegoulding.com/rust-ffi-omnibus/)
