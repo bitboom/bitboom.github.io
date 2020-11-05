@@ -42,7 +42,7 @@ And we have to sync ABI
 with `extern "c"`.
 
 Like this,
-```sh
+```rust
 // src/lib.rs
 #[no_mangle]
 pub extern fn hello() {
@@ -61,7 +61,7 @@ C ABI for extern keyword by default,
 we can omit `"C"`.
 
 #### Build
-```
+```sh
 $ cargo build
 # library path
 $ ls target/debug/
@@ -76,7 +76,7 @@ with CABI `extern "C"`.
 > with a foreign calling convention and
 > is often used to communicate with C code. (extern "C" fn)
 
-```
+```cpp
 // hello.cpp
 extern "C" void hello();
 
@@ -104,7 +104,7 @@ Finally, we can call rust library from c++!
 ## Primitive types
 Now, we will pass primitive parameter types. `int, float, bool`
 
-```
+```rust
 // src/lib.rs
 #[no_mangle]
 pub extern fn print(a: i32, b: f32, c: bool) {
@@ -115,7 +115,7 @@ pub extern fn print(a: i32, b: f32, c: bool) {
 It's better to use fixed size type like int32_t.
 But it's ok for example.
 
-```
+```cpp
 // hello.cpp
 extern "C" void print(int a, float b, bool c);
 
