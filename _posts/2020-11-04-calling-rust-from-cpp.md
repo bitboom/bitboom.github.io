@@ -128,8 +128,8 @@ int main() {
 The way of execution is same with hello world.
 
 ## Advanced example with String
-The last example of this post is string type.
-To treate string, we should know more things.
+The advanced example is string type.
+To treat string, we should know more things.
 - [std::ffi::CStr](https://doc.rust-lang.org/std/ffi/struct.CStr.html)
 - unsafe
 
@@ -160,5 +160,47 @@ extern "C" void print_str(const char *s);
 int main() {
     print_str("genius..");
     return 0;
+}
+```
+
+## Advanced example with Sturct
+The last example is struct type.
+For struct, we make sync between C's struct and Rust's struct.
+
+[repr(c)](https://doc.rust-lang.org/nomicon/other-reprs.html) attribute
+keep align rust's struct with c's struct.
+We should define struct both c++ and rust.
+
+```rust
+// src/lib.rs
+#[repr(C)]
+pub struct Coordinate {
+    x: i32,
+    y: i32,
+}
+
+#[no_mangle]
+pub extern fn flip(c: Coordinate) -> Coordinate {
+    Coordinate {
+        x: c.y,
+        y: c.x,
+    }
+}
+```
+
+Check `struct Coordinate`.
+```cpp
+#include <iostream>
+
+struct Coordinate {
+	int x;
+	int y;
+};
+
+extern "C" Coordinate flip(Coordinate);
+
+int main(void) {
+	auto flipped = flip(Coordinate { .x = 3, .y = 5 });
+	std::cout << flipped.x << ", " << flipped.y << std::endl;
 }
 ```
