@@ -127,8 +127,7 @@ int main() {
 
 The way of execution is same with hello world.
 
-## Advanced example with String
-The advanced example is string type.
+## String
 To treat string, we should know more things.
 - [std::ffi::CStr](https://doc.rust-lang.org/std/ffi/struct.CStr.html)
 - unsafe
@@ -163,8 +162,7 @@ int main() {
 }
 ```
 
-## Advanced example with Sturct
-The last example is struct type.
+## Sturct type
 For struct, we make sync between C's struct and Rust's struct.
 
 [repr(c)](https://doc.rust-lang.org/nomicon/other-reprs.html) attribute
@@ -202,6 +200,38 @@ extern "C" Coordinate flip(Coordinate);
 int main(void) {
 	auto flipped = flip(Coordinate { .x = 3, .y = 5 });
 	std::cout << flipped.x << ", " << flipped.y << std::endl;
+}
+```
+
+## Array type
+The array type is rather difficult.
+Let's analyze how the code works for yourself.
+
+```rust
+#![feature(vec_into_raw_parts)]
+
+#[no_mangle]
+pub extern "C" fn reverse(array: *mut u32, size: u32) -> *mut u32 {
+    let mut vec = unsafe {
+        assert!(!array.is_null());
+        Vec::from_raw_parts(array, size as usize, size as usize)
+    };
+
+    vec.reverse();
+    let (ptr, _, _) = vec.into_raw_parts();
+    ptr
+}
+```
+
+```cpp
+extern "C" uint32_t* reverse(uint32_t* numbers, uint32_t length);
+
+int main() {
+	uint32_t numbers[] = {1, 2, 3, 4, 5, 6};
+	uint32_t length = sizeof numbers / sizeof *numbers;
+
+	uint32_t* reversed = reverse(numbers, length);
+	std::cout << reversed[2] << std::endl;
 }
 ```
 
