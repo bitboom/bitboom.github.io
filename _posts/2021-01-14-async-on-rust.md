@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Asynchronous programming on on Rust
+title: Asynchronous programming on Rust
 tags: [rust]
 ---
 
