@@ -235,5 +235,24 @@ int main() {
 }
 ```
 
+Let's make more modern style.
+```cpp
+#include <iostream>
+#include <cstdint>
+#include <vector>
+
+extern "C" uint32_t* reverse(uint32_t* numbers, uint32_t length);
+
+int main() {
+	std::vector<uint32_t> numbers = {1, 2, 3, 4, 5, 6};
+	uint32_t length = numbers.size();
+
+	uint32_t* reversed = reverse(numbers.data(), length);
+	std::vector<uint32_t> result(reversed, reversed + length);
+	for (const auto& r : result)
+		std::cout << r << std::endl;
+}
+```
+
 ## Appendix
 - [rust-ffi-omnibus](http://jakegoulding.com/rust-ffi-omnibus/)
