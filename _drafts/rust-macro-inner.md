@@ -36,7 +36,8 @@
 ## 토큰트리
 
 - 토큰 -> 토큰트리 -> AST
-- 토큰은 토큰-트리의 leaf node (자식이 없는 노드)
+- 모든 토큰은 토큰-트리
+  - 토큰-트리의 leaf node (자식이 없는 노드)
 - leaf 노드가 아닌 유일한 기본 토큰은 grouping 토큰
   - (..), [..], {..}
 
@@ -87,7 +88,6 @@ a + b + (c + d[0]) + e
 ---
 
 ## Macros in the AST; 
-
 - 매크로 프로세싱은 AST가 생성된 이후에 진행
 - 따라서 매크로에 사용되는 신택스는, 맞아야함
 
@@ -98,9 +98,8 @@ a + b + (c + d[0]) + e
 - $name ! $arg; e.g. println!("Hi!"), concat!("a", "b"), …
 - $name ! $arg0 $arg1; e.g. macro_rules! dummy { () => {}; }.
 
-
 - 3번째는 매크로 콜, 인보크
-- 4번째는 내크로 정의; macro_rules
+- 4번째는 유저 매크로 정의; macro_rules!
 
 - 이 두개 모두 고정! $arg / $arg1 $arg2
 - 즉, 싱글 토큰트리여야함
@@ -144,9 +143,8 @@ vec! ⬚;
 println! ⬚;
 ```
 
-
 - 파서는 ⬚에대해 분석하지 않음
-- The input to every macro is a single non-leaf token tree.
+- The **input** to every macro is a **single non-leaf token tree**.
 
 - Macros (really, syntax extensions in general) are parsed as part of the abstract syntax tree.
 
@@ -166,14 +164,12 @@ Some things not on this list:
 - Match arms
 - Struct fields
 
-
 ## 확장
 - AST가 생성 후, 의미를 부여하기전 (SEMANTIC), 매크로를 확장함
 - 매크로 확장은 AST를 순회하는 것을 포함
-  - 매크로 호출을 찾아 확장으로 대체함
+  - **매크로 호출을 찾아 확장으로 대체함**
 
-
-- 컴파일러는 AST를 가져와 매크로 호출 노드를 -> 매크로 출력 노드로 바꿈
+- **컴파일러는 AST를 가져와 매크로 호출 노드를 -> 매크로 출력 노드로 바꿈**
 
 - 매크로 확장의 결과 (출력 노드)
   - an expression,
@@ -222,7 +218,6 @@ let eight = 2 * four!();
 let eight = 2 * (1 + 3);
 ```
 
-
 ## MACRO_RULES!
 - macro_rules는 그 자체로 구문 확장임
 - 러스트 문법의 일부가 아님
@@ -237,6 +232,7 @@ macro_rules! $name {
     $ruleN ;
 }
 ```
+
 - 최소한 하나의 룰을 포함해야함
 - 각 룰을 아래처럼 생김 -- 패턴 매칭
   - `($matcher) => {$expansion}`
@@ -249,7 +245,6 @@ macro_rules! $name {
 - 인풋이 matcher와 일치하면 invocation이 expansion으로 대치 됨.
 
 ```rust
-
 macro_rules! macro {
   ($matcher) => {$expansion}
 }
@@ -260,7 +255,7 @@ macro_rules! macro {
 
 ## Matchers can also contain literal token trees, which must be matched exactly.
 
-- matcher는 문자열 토큰트리들을 포함 할 수 있음, 정확히 일치한다면.
+- matcher는 문자열 토큰-트리들을 포함 할 수 있음, 정확히 일치한다면.
 
 ## Metavariables
 - matcher는 **capture**를 포함 할 수 있음
@@ -270,7 +265,6 @@ macro_rules! macro {
 
 ### 캡처 구성
 - Captures are written as a dollar ($) followed by an identifier, a colon (:), and finally the kind of capture which is also called the fragment-specifier, which must be one of the following:
-
 
 - $ + : + 캡처
   - ex) $e:expr // metavariable $e
@@ -284,7 +278,6 @@ macro_rules! macro {
 
 - 메타 변수는 러스트 컴파일러의 파서를 이용함 -- 정확
 - expr은 항상 컴파일 되는 표현식을 캡처함
-
 
 ### multiple metavariables in a single matcher
 ```rust
@@ -365,3 +358,29 @@ repeat_two!( a b c d e f, u v w x y z );
 
 // error : repeat_two!( a b c d e f, x y z );
 ```
+
+## Fragment Specifiers
+### item
+- Items are entirely determined at compile-time, generally remain fixed during execution, and may reside in read-only memory
+- 컴파일에 결정 됨
+- read-only 메모리
+
+- modules
+- extern crate declarations
+- use declarations
+- **function definitions**
+- **type definitions**
+- struct definitions
+- enumeration definitions
+- union definitions
+- constant items
+- static items
+- trait definitions
+- implementations
+- extern blocks
+
+- not 
+
+## expression
+- An expression evaluates to a value
+- evaluation
