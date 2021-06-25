@@ -1,7 +1,7 @@
 
 ---
 layout: post
-title: Serialization, Marshalling
+title: Serialization and Marshalling
 tags: [common]
 ---
 
