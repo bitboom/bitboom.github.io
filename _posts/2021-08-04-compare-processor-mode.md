@@ -11,8 +11,8 @@ Both Cortex-M33 & A9 processor support two executing mode. (code execution)
   - Privileged execution has access to all resources available to the security state
   - All resources => Banked registers in the System Control Space
 - Unprivileged mode
-  - Unprivileged execution limits or excludes access to some resources appropriate to the current security state
-  - 
+  - Unprivileged execution limits or excludes access to **some resources** appropriate to the current security state
+  - Some resources => registers
 
 ## [Cortex-m33: Modes of operation and execution](https://developer.arm.com/documentation/100230/0002/functional-description/programmers-model/modes-of-operation-and-execution)
 
