@@ -8,19 +8,25 @@ Let's talk about FFI(foreign function interface) on rust.
 FFI provides the way of creating a C-friendly API.
 
 ```
-+----------------------------+
-| hello() -> | +-----------+ |
-| main()     | | hello() {}| |
-|            | +-----------+ |
-------------------------------
-| c++        | rust (lib)    |
-+----------------------------+
++-----------------------------+
+| hello()    |  +-----------+ |
+| main()     => | hello() {}| |
+|            |  +-----------+ |
+-------------------------------
+| c++        | rust (.so lib) |
++-----------------------------+
 ```
+
+We will treat below type
+- scalar (int, float)
+- compound (string struct, array)
+- reference
+- pointer
 
 ## Write rust library
 This library is called by c++.
 Since rust uses `.rlib` extention for static library,
-we have to make library **dynamic linking** called shared library.
+we have to make library **dynamic linking** called shared library `.so`.
 
 ```sh
 # Cargo.toml
@@ -39,7 +45,7 @@ So, we have to make compiler
 to follow C's `name mangling`
 with `no_mangling` attribute.
 And we have to sync ABI
-with `extern "c"`.
+with `extern "C"`.
 
 Like this,
 ```rust
@@ -51,7 +57,7 @@ pub extern fn hello() {
 
 // Same with above
 #[no_mangle]
-pub extern "c" fn hello() {
+pub extern "C" fn hello() {
     println!("Hello world!");
 }
 ```
@@ -99,10 +105,10 @@ $ ./a.out
 Hello world!
 ```
 
-Finally, we can call rust library from c++!
+Now, we can call rust library from c++!
 
-## Primitive types
-Now, we will pass primitive parameter types. `int, float, bool`
+## Primitive types (scalar type)
+Let's pass primitive parameter types. `int, float, bool`
 
 ```rust
 // src/lib.rs
@@ -127,8 +133,52 @@ int main() {
 
 The way of execution is same with hello world.
 
+## Reference & Pointer
+Let's pass ref and ptr.
+We need to be careful SEGFAULT by null dereferencing.
+And dereference of raw pointer needs `unsafe` on rust.
+
+```rust
+// src/lib.rs
+#[no_mangle]                         
+pub extern fn pass_ref(i: &mut i32) {
+    *i = 3;                          
+}                                    
+                                     
+#[no_mangle]                         
+pub extern fn pass_ptr(i: *mut i32) {
+    unsafe { *i = 3; }               
+}                                    
+```
+
+```cpp
+extern "C" void pass_ref(int&);
+extern "C" void pass_ptr(int*);
+
+int main(void) {                    
+    {                               
+        int a = 0;                  
+        pass_ref(a);                
+        std::cout << a << std::endl;
+    }                               
+
+    {                               
+        int a = 0;                  
+        pass_ptr(&a);               
+        std::cout << a << std::endl;
+    }
+    
+    /* 
+       Segmentation fault (null dereference)
+       int* pa = 0;
+       pass_ptr(pa);
+       std::cout << *pa << std::endl;
+    */
+}
+```
+
 ## String
-To treat string, we should know more things.
+To treat string, we need to know some things.
 - [std::ffi::CStr](https://doc.rust-lang.org/std/ffi/struct.CStr.html)
 - unsafe
 
@@ -163,7 +213,12 @@ int main() {
 ```
 
 ## Sturct type
-For struct, we make sync between C's struct and Rust's struct.
+I'll show you two version to treat struct type.
+- Define struct both C and Rust (Should be sync)
+- Define struct on Rust and Declare struct on C
+
+### Define struct both C and Rust
+Let's sync between C's struct and Rust's struct.
 
 [repr(c)](https://doc.rust-lang.org/nomicon/other-reprs.html) attribute
 keep align rust's struct with c's struct.
@@ -201,6 +256,46 @@ int main(void) {
 	auto flipped = flip(Coordinate { .x = 3, .y = 5 });
 	std::cout << flipped.x << ", " << flipped.y << std::endl;
 }
+```
+
+### (advanced) Define struct on Rust and Declare struct on C
+We can use
+rust's struct
+even without definition on C.
+If we only declare C's struct,
+it is imcomplete type
+which cannot know struct's size at compile time,
+**it is just like handle**.
+
+In other words, we are only able to use it as pointer type.
+And we have to use heap memory and control memory on rust.
+- Cannot access struct's member on C
+- Cannot access struct's method on C
+
+```rust
+#[no_mangle]
+pub extern "C" fn create(c: &mut *mut Coordinate) {
+    *c = Box::into_raw(Box::new(Coordinate { x: 3, y: 5 }));
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn destroy(c: *mut Coordinate) {
+    Box::from_raw(c);
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn print(c: *const Coordinate) {
+    println!("{:?}", *c);
+}
+```
+
+```cpp
+int main(void) {     
+    Coordinate* coo;
+    create(&coo);   
+    print(coo);     
+    destroy(coo);   
+}                   
 ```
 
 ## Array type
