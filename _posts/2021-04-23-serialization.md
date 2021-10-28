@@ -1,4 +1,3 @@
-
 ---
 layout: post
 title: Serialization and Marshalling
