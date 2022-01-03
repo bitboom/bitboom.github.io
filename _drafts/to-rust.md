@@ -4,7 +4,7 @@
 
 ### Communication
 - C: Socket Programming 
-- C++: Socket Programing + Abstraction + Template = RMI
+- C++: Socket Programing + Abstraction + Template + Type Deduction = RMI
 - Rust: Socket Programing + Abstraction + Procedural Macros = RMI
 
 ### Code example
