@@ -78,5 +78,91 @@ RME는 다음 세대 답게 Runtime에도 메모리를 Dynamic하게 할당 할 
 좀 더 기술 적인 표현으로는 메모리 접근 시 World 간 Isolation Boundaries를 확인 합니다.
 
 ## CCA Component
-하드웨어 이외에도 많은 부분이 추가 되었습니다. 각 항목들은 다음에 살펴보겠습니다.
+하드웨어 이외에도 많은 부분이 추가 되었습니다. TF-A는 FVP라는 하드웨어 에뮬레이터를 통해 아래의 기능들을 구현해놨습니다.
+2022년 3월 기준으로 RME와 일부 RMM의 기능 테스트가 들어가 있으며, 메일링 리스트의 답변에 따르면 2022년 하반기에 RMM에 대한 SPEC이 TF-A에 적용 될 것으로 예상됩니다.
+
 ![CCA Component](https://developer.arm.com/-/media/Arm%20Developer%20Community/Images/Block%20Diagrams/Arm%20Confidential%20Compute%20Architecture/Components-of-ArmCCA.png?revision=cd595ff9-86eb-47c6-9719-c4d7e1fd40f5&h=582&w=943&la=en&hash=67108E9C793D281EBCFB997156C3BE1535831B80)
+
+## Realm Management Extention (RME)
+*[TF-A의 RME Section](https://trustedfirmware-a.readthedocs.io/en/latest/components/realm-management-extension.html#rme-support-in-tf-a)를 확인해보면 CCA의 실체에 한발 더 다가설 수 있습니다.*
+
+RME는 Arm CCA의 하드웨어 컴포넌트 입니다.
+TF-A v2.6이후로 RME를 지원하기 시작했습니다.
+TF-A에 RME를 Enable시켜 빌드하고 실행해보겠습니다.
+
+### RME Support in TF-A
+아래 그림은 Arm CCA의 소프트웨어 아키텍처를 나타냅니다.
+TF-A는 EL3의 Firmware입니다.
+Root와 Realm을 위한, 두 개의 Security State와 Address가 추가 되었습니다.
+
+TF-A는 Root Wrold에서 동작하는 Firmware입니다.
+Realm World에선 RMM(Realm Management Monitor Firmware)가 동작합니다.
+
+**RMM은 Realm VMs의 실행, Normal World의 Hypervisor와 Interaction을 관리합니다.**
+
+![cca s/w arch](https://trustedfirmware-a.readthedocs.io/en/latest/_images/arm-cca-software-arch.png)
+
+RME는 Arm CCA를 지원하기 위한 Hardware Extention입니다.
+RME를 지원하기 위해서 TF-A에 다양한 변화가 들어왔습니다.
+
+#### Changes to translation table library
+RME는 Root와 Realm에 대한 PAS(Physical Address Space)를 추가 하였습니다.
+이것을 지원하기 위해 `MT_ROOT`와 `MT_REALM`이 XLAT (Translation Tables) Library에 추가 되었습니다.
+해당 매크로는 Root와 Realm에대해 Memory Region을 구성하는데 사용됩니다.
+
+#### Boot Flow changes
+전형적인 TF-A의 Boot Flow에서는, BL2가 Secure-EL1에서 동작합니다.
+
+그러나 RME가 Enable 되면, TF-A는 Root World에서 EL3로 동작합니다.
+그러므로 BL2는 EL3에서 동작하도록 변경 됩니다.
+
+추가로 RMM은 BL2에 의해 Realm PAS에 로드됩니다.
+
+1. BL1은 BL2를 로드하여 EL3에서 실행 시킵니다.
+2. BL2는 RMM을 포함한 이미지를 로드합니다.
+3. BL2는 BL31로 Control을 넘겨줍니다.
+4. BL31은 SPM을 초기화 합니다
+5. BL31은 RMM을 초기화 합니다.
+6. BL31는 Normal World의 S/W로 Control을 넘깁니다.
+
+#### Granule Protection Table(GPT) library
+4개의 PAS에대한 Isolation은 GPC(Granule Protection Check)에 의해 강제 됩니다.
+모든 Address Translation에 대해 MMU는 GPC를 수행합니다.
+GPC는 Root Wrold에 있는 GPT를 사용합니다.
+GPT는 모든 Page(Granule)에 대한 PAS를 Assign합니다.
+
+GPT library는 GPTs를 초기화 하는 API와
+서로 다른 PAS간 Granule을 Transition하는 API를 제공합니다.
+
+#### RMM Dispatcher (RMMD)
+RMMD는 Realm World로 swiching을 handle하는
+새로운 Standard Runtime Service입니다.
+**RMMD는 RMM을 초기화하고, RMI(Realm Management Interface)를 handle합니다.**
+RMI는 Normal World와 Realm World로부터 발생되는 SMC Call을 의미합니다.
+
+#### Test Realm Payload (TRP)
+TRP는 R-EL2에서 실행되는 Test Payload와
+EL3 firmware를 테스트하기 위해 RMI, R-EL2와 EL3의 인터페이스를 구현합니다.
+
+### Building and running TF-A with RME
+RME를 Enable하기 위해서는 ENABLE_RME build flag를 set해야합니다.
+현재 FVP Platform에서만 지원합니다.
+
+#### Building TF-A with TF-A Tests
+TF-A Tests는 Normal World의 Payload입니다.(BL33)
+TF-A Tests를 빌드하면 `tftf.bin`이 생성 됩니다.
+
+TF-A를 빌드하면 `bl1.bin`과 `fip.bin`이 생성 됩니다.
+TRP는 `fip.bin`에 포함됩니다.
+
+#### Running the tests
+생성된 바이너리는 FVP상에서 테스트를 수행 할 수 있습니다.
+
+---
+
+### Question
+1. Armv9 아키텍처를 따르는 어떤 CPU에서 RME를 지원하나요?
+2. RMM은 누구에의해, 어디로 로드 되나요?
+3. RMM와 RMMD는 각각 어떤 이미지에 포함되어 있나요?
+4. RMM은 누구에 의해 초기화 되나요?
+5. RME를 지원하면서 TF-A 변화된 3가지는 무엇인가요?
