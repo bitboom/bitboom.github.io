@@ -1,5 +1,5 @@
 # Site settings
-title:          Sangwan
+title:          Sangwan's blog
 description:    "Staff Software Engineer"
 baseurl:        "/tale"
 url:            "https://bitboom.github.io"
@@ -28,7 +28,7 @@ plugins:
   - jekyll-feed
   - jekyll-paginate
   - jekyll-seo-tag
-  - jemoji
+#  - jemoji
 
 # Permalinks
 permalink:      /:year-:month-:day/:title
