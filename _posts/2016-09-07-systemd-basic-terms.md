@@ -1,8 +1,11 @@
 ---
 layout: post
 title:  systemd의 기본적인 용어 설명
-tags: [systemd] 
+tags: [linux] 
 ---
+
+Systemd의 Unit과 Soket에 대한 정리
+
 ## unit
 아래 항목에 대해 정보를 가지고 있는 것을 unit configuration file이라고 한다.  
 - service  
@@ -64,11 +67,6 @@ RequiredBy= # 폴더에 symbolic link를 생성해줌
 > linking to the actual unit will be created.  
 > It tells *systemd to pull in the unit when starting multi-user.target.*  
 > The inverse systemctl disable will remove that symlink again.  
-
-## TODO
-1. 개발자 블로그 내용 추가.
-2. systemctl start, enable 차이 추가.
-3. socket, service, target unit 설명 추가.
 
 ## references
 - https://www.freedesktop.org/software/systemd/man/systemd.unit.html  
