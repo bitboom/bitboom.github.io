@@ -30,6 +30,8 @@ plugins:
   - jekyll-seo-tag
 #  - jemoji
 
+remote_theme: chesterhow/tale
+
 # Permalinks
 permalink:      /:year-:month-:day/:title
 paginate:       5
