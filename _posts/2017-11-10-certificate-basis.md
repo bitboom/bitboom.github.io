@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 전자서명과 인증서
-tags: [digital signature]
+tags: [security]
 ---
 
  우리는 집을 사기 위해 계약서를 쓸 때나 신용카드를 사용하고 나서 **서명**을 한다. 여기서 서명은 두 가지 효력이 있다.  

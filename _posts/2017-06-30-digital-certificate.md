@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  Digital Certificate
-tags: [cryptography]
+tags: [security]
 ---
 
 #### [Public Key Certificate][1]

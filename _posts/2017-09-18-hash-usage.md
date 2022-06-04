@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  Hash의 용도
-tags: [theory]
+tags: [security]
 ---
 
 ### [Hash Function][1]

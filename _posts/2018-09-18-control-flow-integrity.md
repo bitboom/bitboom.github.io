@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  Control Flow Integrity
-tags: [cfi]
+tags: [security]
 ---
 
 # Introduction
