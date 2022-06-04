@@ -1,10 +1,3 @@
----
-layout: post
-title: Default vim config
-tags: [vim]
----
-
-```
 "  indent
 set autoindent
 set cindent
@@ -41,4 +34,3 @@ set foldlevelstart=10
 set history=1000
 set encoding=utf8
 set mouse=a
-```
