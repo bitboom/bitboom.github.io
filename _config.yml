@@ -1,7 +1,7 @@
 # Site settings
 title:          Sangwan
 description:    "Staff Software Engineer"
-baseurl:        ""
+baseurl:        "/tale"
 url:            "https://bitboom.github.io"
 
 # Google Analytics
