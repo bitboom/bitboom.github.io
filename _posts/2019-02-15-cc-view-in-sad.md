@@ -1,7 +1,7 @@
 ---
 layout: post
 title: C&C View in SW Arch Document
-tags: [architecture]
+tags: [common]
 ---
 
 # Component in Software System
