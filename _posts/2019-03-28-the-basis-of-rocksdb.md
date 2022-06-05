@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The basis of RocksDB
-tags: [rocksdb]
+tags: [framework]
 ---
 
 # [RocksDB](https://rocksdb.org/)

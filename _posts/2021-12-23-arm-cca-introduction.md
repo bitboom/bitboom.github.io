@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Arm CCA introduction
-tags: [cca]
+tags: [security]
 ---
 
 Confidential Computing, Arm CCA, Realm

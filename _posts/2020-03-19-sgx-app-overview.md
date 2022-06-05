@@ -1,7 +1,7 @@
 ---
 layout: post
 title: SGX Application Overview
-tags: [sgx]
+tags: [security]
 ---
 
 This document describe

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Introduction to GitHub Actions
-tags: [github]
+tags: [common]
 ---
 
 ## [Github Action Introduction](https://docs.github.com/en/actions/learn-github-actions/introduction-to-github-actions)

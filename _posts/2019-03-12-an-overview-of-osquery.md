@@ -1,7 +1,7 @@
 ---
 layout: post
 title: An overview of osquery
-tags: [osquery]
+tags: [framework]
 ---
 
 # [osquery](https://osquery.io/)

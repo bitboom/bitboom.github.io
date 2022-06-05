@@ -1,7 +1,7 @@
 ---
 layout: post
 title: SGX Overview
-tags: [sgx]
+tags: [security]
 ---
 
 ## Software Guard Extensions

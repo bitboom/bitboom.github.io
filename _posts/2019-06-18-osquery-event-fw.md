@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Osquery's Event Framework
-tags: [osquery]
+tags: [framework]
 ---
 
 본 글은 [How RocksDB is used in osquery](https://code.fb.com/security/how-rocksdb-is-used-in-osquery/)의 내용 중 Event Framework에 관한 것을 번역 및 추가 해석 한 것이다.  

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: An overview of kpatch-build
-tags: [kptach]
+tags: [linux]
 ---
 
 # kpatch-build

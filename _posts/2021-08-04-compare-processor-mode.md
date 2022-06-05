@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Compare processor modes between Cortex-m & -a
-tags: [arm]
+tags: [embedded]
 ---
 
 ## Common executing mode

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: DSL with Jinja2
-tags: [python]
+tags: [c++]
 ---
 
 본 글에선 C++의 구조체를 정의하는 DSL(Domain Specific Language)을 구현하기 위해 Jinja2를 사용하는 예를 설명한다. 이 예의 동작 방식은 Google의 Protocol Buf의 message 생성 방식이나 Osquery의 Table 생성방식을 간접적으로 이해 할 수 있다.

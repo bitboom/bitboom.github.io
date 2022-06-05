@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Analyze some osquery headers
-tags: [osquery]
+tags: [framework]
 ---
 
 [Osquery 4.0.0]([https://github.com/osquery/osquery/releases/tag/4.0.0](https://github.com/osquery/osquery/releases/tag/4.0.0)) is released on Jun 29, 2019

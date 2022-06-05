@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Deploy own blog with Github Page
-tags: [general]
+tags: [common]
 ---
 
 Let's deploy own blog

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The sqlite virtual table with csv vtab
-tags: [sqlite]
+tags: [framework]
 ---
 
 # Sqlite Virtual Table

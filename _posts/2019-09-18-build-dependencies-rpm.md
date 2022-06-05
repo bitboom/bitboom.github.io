@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Build-dependencies between multiple packages in RPM
-tags: [rpm]
+tags: [framework]
 ---
 
 

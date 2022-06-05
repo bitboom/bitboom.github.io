@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Anatomy of kpatch
-tags: [kernel]
+tags: [linux]
 ---
 
 ## [kpatch](https://github.com/dynup/kpatch): dynamic kernel patching

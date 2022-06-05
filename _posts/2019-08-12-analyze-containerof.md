@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Analyze container_of and offsetof
-tags: [kernel]
+tags: [linux]
 ---
 
 container_of and offsetof are frequently used in kernel code.  

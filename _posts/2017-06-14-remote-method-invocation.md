@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  Remote Method Invocation
-tags: [tech]
+tags: [framework]
 ---
 
 ### RMI, Remote Method Invocation
