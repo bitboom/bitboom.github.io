@@ -4,7 +4,7 @@ Personal technical blog built with Jekyll and published with GitHub Pages.
 
 ## Requirements
 
-- Ruby 3.3
+- Ruby 3.2
 - Bundler 2.3.11 or newer
 
 ## Setup
