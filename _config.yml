@@ -4,9 +4,6 @@ description:    "Staff Software Engineer"
 baseurl:        ""
 url:            "https://bitboom.github.io"
 
-# Google Analytics
-google_analytics: UA-136014324-1
-
 # Author
 author:
   name:         Sangwan Kwon
@@ -25,6 +22,7 @@ sass:
 
 # Gems
 plugins:
+  - jekyll-remote-theme
   - jekyll-feed
   - jekyll-paginate
   - jekyll-seo-tag
